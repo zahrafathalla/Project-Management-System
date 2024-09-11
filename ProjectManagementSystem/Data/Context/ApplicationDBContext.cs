@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using ProjectManagementSystem.Data.Entities;
 using System.Reflection;
 
 namespace ProjectManagementSystem.Data.Context
@@ -14,6 +15,9 @@ namespace ProjectManagementSystem.Data.Context
         {
             modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
         }
+
+        public DbSet<User> users { get; set; }
+        public DbSet<Role> roles { get; set; }
 
 
     }
