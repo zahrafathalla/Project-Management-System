@@ -1,0 +1,147 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "E:\\.Net Project\\Project-Management-System\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{16CB6642-9605-4691-9D07-60482E2D7388}|ProjectManagementSystem\\ProjectManagementSystem.csproj|e:\\.net project\\project-management-system\\projectmanagementsystem\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{16CB6642-9605-4691-9D07-60482E2D7388}|ProjectManagementSystem\\ProjectManagementSystem.csproj|solutionrelative:projectmanagementsystem\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{16CB6642-9605-4691-9D07-60482E2D7388}|ProjectManagementSystem\\ProjectManagementSystem.csproj|e:\\.net project\\project-management-system\\projectmanagementsystem\\controllers\\accountcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{16CB6642-9605-4691-9D07-60482E2D7388}|ProjectManagementSystem\\ProjectManagementSystem.csproj|solutionrelative:projectmanagementsystem\\controllers\\accountcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{16CB6642-9605-4691-9D07-60482E2D7388}|ProjectManagementSystem\\ProjectManagementSystem.csproj|e:\\.net project\\project-management-system\\projectmanagementsystem\\cqrs\\user\\commands\\logincommand.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{16CB6642-9605-4691-9D07-60482E2D7388}|ProjectManagementSystem\\ProjectManagementSystem.csproj|solutionrelative:projectmanagementsystem\\cqrs\\user\\commands\\logincommand.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{16CB6642-9605-4691-9D07-60482E2D7388}|ProjectManagementSystem\\ProjectManagementSystem.csproj|e:\\.net project\\project-management-system\\projectmanagementsystem\\services\\userservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{16CB6642-9605-4691-9D07-60482E2D7388}|ProjectManagementSystem\\ProjectManagementSystem.csproj|solutionrelative:projectmanagementsystem\\services\\userservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{16CB6642-9605-4691-9D07-60482E2D7388}|ProjectManagementSystem\\ProjectManagementSystem.csproj|e:\\.net project\\project-management-system\\projectmanagementsystem\\services\\authontication\\jwtprovider.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{16CB6642-9605-4691-9D07-60482E2D7388}|ProjectManagementSystem\\ProjectManagementSystem.csproj|solutionrelative:projectmanagementsystem\\services\\authontication\\jwtprovider.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{16CB6642-9605-4691-9D07-60482E2D7388}|ProjectManagementSystem\\ProjectManagementSystem.csproj|e:\\.net project\\project-management-system\\projectmanagementsystem\\services\\iuserservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{16CB6642-9605-4691-9D07-60482E2D7388}|ProjectManagementSystem\\ProjectManagementSystem.csproj|solutionrelative:projectmanagementsystem\\services\\iuserservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Program.cs",
+              "DocumentMoniker": "E:\\.Net Project\\Project-Management-System\\ProjectManagementSystem\\Program.cs",
+              "RelativeDocumentMoniker": "ProjectManagementSystem\\Program.cs",
+              "ToolTip": "E:\\.Net Project\\Project-Management-System\\ProjectManagementSystem\\Program.cs*",
+              "RelativeToolTip": "ProjectManagementSystem\\Program.cs*",
+              "ViewState": "AQIAABsAAAAAAAAAAAAAACQAAAAyAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-09-12T12:50:26.758Z",
+              "IsPinned": true,
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "LoginCommand.cs",
+              "DocumentMoniker": "E:\\.Net Project\\Project-Management-System\\ProjectManagementSystem\\CQRS\\User\\Commands\\LoginCommand.cs",
+              "RelativeDocumentMoniker": "ProjectManagementSystem\\CQRS\\User\\Commands\\LoginCommand.cs",
+              "ToolTip": "E:\\.Net Project\\Project-Management-System\\ProjectManagementSystem\\CQRS\\User\\Commands\\LoginCommand.cs*",
+              "RelativeToolTip": "ProjectManagementSystem\\CQRS\\User\\Commands\\LoginCommand.cs*",
+              "ViewState": "AQIAABgAAAAAAAAAAAAAACIAAAALAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-09-12T21:18:36.75Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "AccountController.cs",
+              "DocumentMoniker": "E:\\.Net Project\\Project-Management-System\\ProjectManagementSystem\\Controllers\\AccountController.cs",
+              "RelativeDocumentMoniker": "ProjectManagementSystem\\Controllers\\AccountController.cs",
+              "ToolTip": "E:\\.Net Project\\Project-Management-System\\ProjectManagementSystem\\Controllers\\AccountController.cs",
+              "RelativeToolTip": "ProjectManagementSystem\\Controllers\\AccountController.cs",
+              "ViewState": "AQIAAAcAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-09-12T21:18:23.839Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "JwtProvider.cs",
+              "DocumentMoniker": "E:\\.Net Project\\Project-Management-System\\ProjectManagementSystem\\Services\\Authontication\\JwtProvider.cs",
+              "RelativeDocumentMoniker": "ProjectManagementSystem\\Services\\Authontication\\JwtProvider.cs",
+              "ToolTip": "E:\\.Net Project\\Project-Management-System\\ProjectManagementSystem\\Services\\Authontication\\JwtProvider.cs",
+              "RelativeToolTip": "ProjectManagementSystem\\Services\\Authontication\\JwtProvider.cs",
+              "ViewState": "AQIAABcAAAAAAAAAAAAAACgAAABuAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-09-12T20:18:13.762Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "IUserService.cs",
+              "DocumentMoniker": "E:\\.Net Project\\Project-Management-System\\ProjectManagementSystem\\Services\\IUserService.cs",
+              "RelativeDocumentMoniker": "ProjectManagementSystem\\Services\\IUserService.cs",
+              "ToolTip": "E:\\.Net Project\\Project-Management-System\\ProjectManagementSystem\\Services\\IUserService.cs",
+              "RelativeToolTip": "ProjectManagementSystem\\Services\\IUserService.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAoAAAB7AAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-09-12T17:03:53.614Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "UserService.cs",
+              "DocumentMoniker": "E:\\.Net Project\\Project-Management-System\\ProjectManagementSystem\\Services\\UserService.cs",
+              "RelativeDocumentMoniker": "ProjectManagementSystem\\Services\\UserService.cs",
+              "ToolTip": "E:\\.Net Project\\Project-Management-System\\ProjectManagementSystem\\Services\\UserService.cs",
+              "RelativeToolTip": "ProjectManagementSystem\\Services\\UserService.cs",
+              "ViewState": "AQIAACUAAAAAAAAAAAAAADMAAABrAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-09-12T12:44:28.523Z",
+              "EditorCaption": ""
+            }
+          ]
+        },
+        {
+          "DockedWidth": 374,
+          "SelectedChildIndex": -1,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{1c64b9c2-e352-428e-a56d-0ace190b99a6}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
+            }
+          ]
+        },
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": -1,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{3ae79031-e1bc-11d0-8f78-00a0c9110057}"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
