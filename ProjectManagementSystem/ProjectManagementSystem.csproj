@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
@@ -18,10 +18,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Controllers\" />
+    <Folder Include="CQRS\User\Commands\" />
+    <Folder Include="CQRS\User\Queries\" />
     <Folder Include="Data\Configurations\" />
     <Folder Include="Data\Migrations\" />
-    <Folder Include="CQRS\" />
     <Folder Include="Helper\" />
     <Folder Include="Extensions\" />
     <Folder Include="MiddleWare\" />
