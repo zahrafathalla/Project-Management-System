@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\almagd\\source\\repos\\ProjectManagementSystem\\ProjectManagementSystem\\ProjectManagementSystem.csproj": {}
+    "E:\\.Net Project\\Project-Management-System\\ProjectManagementSystem\\ProjectManagementSystem.csproj": {}
   },
   "projects": {
-    "C:\\Users\\almagd\\source\\repos\\ProjectManagementSystem\\ProjectManagementSystem\\ProjectManagementSystem.csproj": {
+    "E:\\.Net Project\\Project-Management-System\\ProjectManagementSystem\\ProjectManagementSystem.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\almagd\\source\\repos\\ProjectManagementSystem\\ProjectManagementSystem\\ProjectManagementSystem.csproj",
+        "projectUniqueName": "E:\\.Net Project\\Project-Management-System\\ProjectManagementSystem\\ProjectManagementSystem.csproj",
         "projectName": "ProjectManagementSystem",
-        "projectPath": "C:\\Users\\almagd\\source\\repos\\ProjectManagementSystem\\ProjectManagementSystem\\ProjectManagementSystem.csproj",
-        "packagesPath": "C:\\Users\\almagd\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\almagd\\source\\repos\\ProjectManagementSystem\\ProjectManagementSystem\\obj\\",
+        "projectPath": "E:\\.Net Project\\Project-Management-System\\ProjectManagementSystem\\ProjectManagementSystem.csproj",
+        "packagesPath": "C:\\Users\\Ibrahim shosha\\.nuget\\packages\\",
+        "outputPath": "E:\\.Net Project\\Project-Management-System\\ProjectManagementSystem\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\almagd\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\Ibrahim shosha\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -22,6 +22,7 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -34,12 +35,25 @@
           "warnAsError": [
             "NU1605"
           ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
         }
       },
       "frameworks": {
         "net8.0": {
           "targetAlias": "net8.0",
           "dependencies": {
+            "MediatR": {
+              "target": "Package",
+              "version": "[12.4.1, )"
+            },
+            "Microsoft.AspNetCore.Authentication.JwtBearer": {
+              "target": "Package",
+              "version": "[8.0.8, )"
+            },
             "Microsoft.EntityFrameworkCore": {
               "target": "Package",
               "version": "[8.0.8, )"
@@ -78,7 +92,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.100/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.302/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

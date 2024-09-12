@@ -8,6 +8,8 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="MediatR" Version="12.4.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.8" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.8" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.8" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.8">
@@ -18,7 +20,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="CQRS\User\Commands\" />
     <Folder Include="CQRS\User\Queries\" />
     <Folder Include="Data\Configurations\" />
     <Folder Include="Data\Migrations\" />

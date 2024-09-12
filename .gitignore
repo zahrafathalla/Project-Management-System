@@ -1,0 +1,7 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/.vs/ProjectEvaluation/projectmanagementsystem.metadata.v7.bin
+/.vs/ProjectEvaluation/projectmanagementsystem.projects.v7.bin
+.vs/
