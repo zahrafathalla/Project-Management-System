@@ -47,3 +47,39 @@ $tf/
 
 /.vs
 *.dbmdl
+#OS junk files
+[Tt]humbs.db
+*.DS_Store
+**/$tf/
+#Visual Studio files
+*.[Oo]bj
+*.user
+*.aps
+*.pch
+*.vspscc
+*.vssscc
+*_i.c
+*_p.c
+*.ncb
+*.suo
+*.tlb
+*.tlh
+*.jfm
+*.bak
+*.[Cc]ache
+*.ilk
+*.log
+*.lib
+*.sbr
+*.sdf
+*.pyc
+*.xml
+ipch/
+obj/
+[Bb]in
+[Dd]ebug*/
+[Rr]elease*/
+Ankh.NoLoad
+$tf/
+/ProjectManagementSystem/bin/Debug/net8.0/ProjectManagementSystem.dll
+/.vs/ProjectManagementSystem/v17/.suo
