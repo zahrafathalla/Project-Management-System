@@ -8,6 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="13.0.1" />
     <PackageReference Include="MediatR" Version="12.4.1" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.8" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.8" />
@@ -20,10 +21,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="CQRS\User\Queries\" />
     <Folder Include="Data\Configurations\" />
     <Folder Include="Data\Migrations\" />
-    <Folder Include="Helper\" />
     <Folder Include="Extensions\" />
     <Folder Include="MiddleWare\" />
     <Folder Include="Repository\Specification\" />

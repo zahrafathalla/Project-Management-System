@@ -1,10 +1,13 @@
 
+using AutoMapper;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using ProjectManagementSystem.Data.Context;
+using ProjectManagementSystem.Helper;
+using ProjectManagementSystem.Repository.Interface;
 using ProjectManagementSystem.Repository.Repository;
 using ProjectManagementSystem.Services;
 using ProjectManagementSystem.Services.Authontication;
@@ -30,6 +33,8 @@ namespace ProjectManagementSystem
             builder.Services.AddScoped(typeof(GenericRepository<>));
 
             builder.Services.AddScoped<IUserService, UserService>();
+            builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+
             builder.Services.AddSingleton<IJwtProvider, JwtProvider>();
 
             builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(typeof(Program).Assembly));
@@ -69,8 +74,10 @@ namespace ProjectManagementSystem
                 .EnableSensitiveDataLogging(); ;
             });
 
+            builder.Services.AddAutoMapper(typeof(MappingProfile));
             var app = builder.Build();
 
+            MapperHandler.mapper = app.Services.GetService<IMapper>();
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
             {

@@ -1,7 +1,7 @@
 ﻿using MediatR;
 using ProjectManagementSystem.Services;
 
-namespace ProjectManagementSystem.CQRS.User.Commands;
+namespace ProjectManagementSystem.CQRS.Users.Commands;
 
 
 public class LoginCommand : IRequest<LoginResponse>

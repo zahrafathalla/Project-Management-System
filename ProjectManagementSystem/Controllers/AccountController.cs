@@ -1,7 +1,7 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using ProjectManagementSystem.CQRS.User.Commands;
+using ProjectManagementSystem.CQRS.Users.Commands;
 
 namespace ProjectManagementSystem.Controllers
 {
@@ -17,6 +17,12 @@ namespace ProjectManagementSystem.Controllers
 
         [HttpPost("login")]
         public async Task<ActionResult<LoginResponse>> Login([FromBody] LoginCommand command)
+        {
+            var response = await _mediator.Send(command);
+            return Ok(response);
+        }
+        [HttpPost("CreateAccount")]
+        public async Task<ActionResult<CreateAccountToReturnDto>> CreateAccount([FromBody] CreateAccountCommand command)
         {
             var response = await _mediator.Send(command);
             return Ok(response);
