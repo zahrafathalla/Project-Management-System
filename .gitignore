@@ -1,3 +1,37 @@
+#OS junk files
+[Tt]humbs.db
+*.DS_Store
+**/$tf/
+#Visual Studio files
+*.[Oo]bj
+*.user
+*.aps
+*.pch
+*.vspscc
+*.vssscc
+*_i.c
+*_p.c
+*.ncb
+*.suo
+*.tlb
+*.tlh
+*.jfm
+*.bak
+*.[Cc]ache
+*.ilk
+*.log
+*.lib
+*.sbr
+*.sdf
+*.pyc
+*.xml
+ipch/
+obj/
+[Bb]in
+[Dd]ebug*/
+[Rr]elease*/
+Ankh.NoLoad
+$tf/
 ".vs/" 
 ".vs/" 
 ".vs/" 
@@ -8,3 +42,8 @@
 /.vs/ProjectManagementSystem/FileContentIndex/667cb108-15e9-4bad-8d8f-cc20c1431e62.vsidx
 /.vs/ProjectManagementSystem/FileContentIndex/6cb81874-7de9-46e4-8a5e-8066f7f8ca54.vsidx
 /.vs/ProjectManagementSystem/FileContentIndex/ae47ff72-5fa0-4349-9d39-369c4683475f.vsidx
+
+/Project-Management-System/.vs
+
+/.vs
+*.dbmdl
