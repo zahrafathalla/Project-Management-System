@@ -1,34 +1,42 @@
 ﻿using MediatR;
-using ProjectManagementSystem.Services;
+using ProjectManagementSystem.Abstractions;
+using ProjectManagementSystem.CQRS.User.Queries;
+using ProjectManagementSystem.Errors;
 
 namespace ProjectManagementSystem.CQRS.Users.Commands;
 
 
-public class LoginCommand : IRequest<LoginResponse>
+public class LoginCommand : IRequest<Result<LoginResponse>>
 {
     public string Email { get; set; }
     public string Password { get; set; }
 }
 
-public class LoginHandler : IRequestHandler<LoginCommand, LoginResponse>
+public class LoginHandler : IRequestHandler<LoginCommand, Result<LoginResponse>>
 {
-    private readonly IUserService _userService;
+    private readonly IMediator _mediator;
 
-    public LoginHandler(IUserService userService)
+    public LoginHandler(IMediator mediator)
     {
-        _userService = userService;
+        _mediator = mediator;
     }
 
-    public async Task<LoginResponse> Handle(LoginCommand request, CancellationToken cancellationToken)
+    public async Task<Result<LoginResponse>> Handle(LoginCommand request, CancellationToken cancellationToken)
     {
-        var user = await _userService.GetTokenAsync(request.Email, request.Password);
+        var authResult = await _mediator.Send(new GetTokenQuery { Email = request.Email, Password = request.Password });
 
-        if (user == null)
+        if (!authResult.IsSuccess)
             throw new UnauthorizedAccessException("Invalid credentials");
+            //return Result.Failure(UserErrors.InvalidCredentials);
 
-        return new LoginResponse(user.Value.Id, user.Value.Email, user.Value.Token, user.Value.ExpiresIn);
+
+        var response = authResult.Data;
+        var loginresponse =  new LoginResponse(response.Id, response.Email, response.Token, response.ExpiresIn);
+
+        return Result.Success(loginresponse);
     }
 }
+
 
 
 public record LoginResponse(

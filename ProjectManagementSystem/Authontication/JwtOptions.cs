@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace ProjectManagementSystem.Services.Authontication;
+namespace ProjectManagementSystem.Authontication;
 
 public class JwtOptions
 {

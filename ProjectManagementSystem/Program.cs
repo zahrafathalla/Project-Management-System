@@ -5,12 +5,12 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
+using ProjectManagementSystem.Authontication;
 using ProjectManagementSystem.Data.Context;
 using ProjectManagementSystem.Helper;
 using ProjectManagementSystem.Repository.Interface;
+using ProjectManagementSystem.Data.Entities;
 using ProjectManagementSystem.Repository.Repository;
-using ProjectManagementSystem.Services;
-using ProjectManagementSystem.Services.Authontication;
 using System.Diagnostics;
 using System.Reflection;
 using System.Text;
@@ -31,6 +31,7 @@ namespace ProjectManagementSystem
             builder.Services.AddSwaggerGen();
 
             builder.Services.AddScoped(typeof(GenericRepository<>));
+            builder.Services.AddScoped<IGenericRepository<User>, GenericRepository<User>>();
 
             builder.Services.AddScoped<IUserService, UserService>();
             builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
