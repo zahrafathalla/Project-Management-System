@@ -1,27 +1,34 @@
-﻿using Microsoft.Extensions.Options;
+﻿using MediatR;
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
+using ProjectManagementSystem.Authontication;
 using ProjectManagementSystem.Data.Entities;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 
-namespace ProjectManagementSystem.Services.Authontication;
+namespace ProjectManagementSystem.CQRS.User.Queries;
 
-public class JwtProvider : IJwtProvider
+public class GenerateTokenQuery : IRequest<(string Token, int ExpiresIn)>
 {
-    // Ioption<className> --> To Read Data from settings[configuration]
+    public Data.Entities.User User { get; set; }
+}
+
+public class GenerateTokenQueryHandler : IRequestHandler<GenerateTokenQuery, (string Token, int ExpiresIn)>
+{
     private readonly JwtOptions _options;
 
-    public JwtProvider(IOptions<JwtOptions> options)
+    public GenerateTokenQueryHandler(IOptions<JwtOptions> options)
     {
         _options = options.Value;
     }
 
-    public (string token, int expiresIn) GenerateToken(User user)
+    
+    public Task<(string Token, int ExpiresIn)> Handle(GenerateTokenQuery request, CancellationToken cancellationToken)
     {
         Claim[] claims = new Claim[]
         {
-            new(JwtRegisteredClaimNames.Email, user.Email!),
+            new(JwtRegisteredClaimNames.Email, request.User.Email!),
             new(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
         };
 
@@ -38,6 +45,9 @@ public class JwtProvider : IJwtProvider
             signingCredentials: singingCredentials
         );
 
-        return (token: new JwtSecurityTokenHandler().WriteToken(token), expiresIn: _options.ExpiryMinutes * 60);
+        var jwtToken = new JwtSecurityTokenHandler().WriteToken(token);
+        var expiresIn = _options.ExpiryMinutes * 60;
+
+        return Task.FromResult((jwtToken, expiresIn));
     }
 }

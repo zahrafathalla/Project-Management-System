@@ -19,7 +19,7 @@ namespace ProjectManagementSystem.Controllers
         public async Task<ActionResult<LoginResponse>> Login([FromBody] LoginCommand command)
         {
             var response = await _mediator.Send(command);
-            return Ok(response);
+            return Ok(response.GetResult());
         }
     }
 }
