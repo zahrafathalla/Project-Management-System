@@ -3,7 +3,7 @@
 namespace ProjectManagementSystem.Abstractions;
 
 public class Result
-{
+{//comment
     public Result(bool isSuccess, Error error)
     {
         if ((isSuccess && error != Error.None) || (!isSuccess && error == Error.None))
