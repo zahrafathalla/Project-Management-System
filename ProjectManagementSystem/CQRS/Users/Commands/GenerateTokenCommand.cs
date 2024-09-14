@@ -45,11 +45,6 @@ public class GenerateTokenCommandHandler : IRequestHandler<GenerateTokenCommand,
             signingCredentials: singingCredentials
         );
 
-        //var jwtToken = new JwtSecurityTokenHandler().WriteToken(token);
-        //var expiresIn = _options.ExpiryMinutes * 60;
-
-        //return Task.FromResult((jwtToken, expiresIn));
-
         return new JwtSecurityTokenHandler().WriteToken(token);
     }
 }
