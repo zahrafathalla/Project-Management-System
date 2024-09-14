@@ -39,13 +39,13 @@ public class LoginHandler : IRequestHandler<LoginCommand, LoginResponse>
 
         if (user == null || !PasswordHasher.checkPassword(request.Password, user.PasswordHash) || !user.IsEmailVerified)
             return result;
-        else
-        {
-            var loginResponse = user.Map<LoginResponse>();
-            loginResponse.Token = await _mediator.Send(new GenerateTokenCommand { User = user });
 
-            return loginResponse;
-        }
+        var loginResponse = user.Map<LoginResponse>();
+        loginResponse.Token = await _mediator.Send(new GenerateTokenCommand { User = user });
+
+        return loginResponse;
+
+
     }
 }
 
