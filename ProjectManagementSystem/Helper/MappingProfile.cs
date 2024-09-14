@@ -9,6 +9,8 @@ namespace ProjectManagementSystem.Helper
         public MappingProfile()
         {
             CreateMap<User, CreateAccountToReturnDto>();
+            CreateMap<User, LoginResponse>();
+
         }
     }
 }

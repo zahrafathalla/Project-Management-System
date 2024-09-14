@@ -33,10 +33,8 @@ namespace ProjectManagementSystem
             builder.Services.AddScoped(typeof(GenericRepository<>));
             builder.Services.AddScoped<IGenericRepository<User>, GenericRepository<User>>();
 
-            builder.Services.AddScoped<IUserService, UserService>();
             builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
-            builder.Services.AddSingleton<IJwtProvider, JwtProvider>();
 
             builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(typeof(Program).Assembly));
 

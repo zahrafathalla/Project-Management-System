@@ -68,8 +68,9 @@ namespace ProjectManagementSystem.CQRS.Users.Commands
                 Country = request.Country,
                 PhoneNumber = request.PhoneNumber,
                 PasswordHash = PasswordHasher.HashPassword(request.Password),
-                IsEmailVerified = false
-            };
+                IsEmailVerified = false,
+                VerificationToken = Guid.NewGuid().ToString()
+        };
 
             await _unitOfWork.Repository<User>().AddAsync(user);
             await _unitOfWork.SaveChangesAsync();

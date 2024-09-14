@@ -24,7 +24,7 @@ namespace ProjectManagementSystem.CQRS.Users.Queries
             var existingUser = await _unitOfWork.Repository<User>()
                             .GetAsync(u=>u.Email == request.Email || u.UserName == request.UserName);
 
-            return existingUser != null;
+            return existingUser.Any();
 
         }
     }

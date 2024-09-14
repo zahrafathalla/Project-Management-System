@@ -7,26 +7,26 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 
-namespace ProjectManagementSystem.CQRS.User.Queries;
+namespace ProjectManagementSystem.CQRS.Users.Commands;
 
-public class GenerateTokenQuery : IRequest<(string Token, int ExpiresIn)>
+public class GenerateTokenCommand : IRequest<string>
 {
-    public Data.Entities.User User { get; set; }
+    public User User { get; set; }
 }
 
-public class GenerateTokenQueryHandler : IRequestHandler<GenerateTokenQuery, (string Token, int ExpiresIn)>
+public class GenerateTokenCommandHandler : IRequestHandler<GenerateTokenCommand, string>
 {
     private readonly JwtOptions _options;
 
-    public GenerateTokenQueryHandler(IOptions<JwtOptions> options)
+    public GenerateTokenCommandHandler(IOptions<JwtOptions> options)
     {
         _options = options.Value;
     }
 
-    
-    public Task<(string Token, int ExpiresIn)> Handle(GenerateTokenQuery request, CancellationToken cancellationToken)
+
+    public async Task<string> Handle(GenerateTokenCommand request, CancellationToken cancellationToken)
     {
-        Claim[] claims = new Claim[]
+        Claim[] claims =
         {
             new(JwtRegisteredClaimNames.Email, request.User.Email!),
             new(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
@@ -45,9 +45,11 @@ public class GenerateTokenQueryHandler : IRequestHandler<GenerateTokenQuery, (st
             signingCredentials: singingCredentials
         );
 
-        var jwtToken = new JwtSecurityTokenHandler().WriteToken(token);
-        var expiresIn = _options.ExpiryMinutes * 60;
+        //var jwtToken = new JwtSecurityTokenHandler().WriteToken(token);
+        //var expiresIn = _options.ExpiryMinutes * 60;
 
-        return Task.FromResult((jwtToken, expiresIn));
+        //return Task.FromResult((jwtToken, expiresIn));
+
+        return new JwtSecurityTokenHandler().WriteToken(token);
     }
 }
