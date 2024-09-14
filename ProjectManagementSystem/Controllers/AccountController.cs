@@ -29,14 +29,14 @@ namespace ProjectManagementSystem.Controllers
             return Ok(response);
         }
 
-        [HttpGet("verify")]
+        [HttpPost("verify")]
         public async Task<ActionResult<bool>> VerifyAccount([FromQuery] string email, [FromQuery] string token)
         {
             var result = await _mediator.Send(new VerifyAccountCommand { Email = email, Token = token });
             return result;
         }
         
-        [HttpGet("ChangePassword")]
+        [HttpPost("ChangePassword")]
         public async Task<ActionResult<ChangePasswordResultDto>> ChangePassword([FromQuery] ChangePasswordCommand command)
         {
             var result = await _mediator.Send(command);

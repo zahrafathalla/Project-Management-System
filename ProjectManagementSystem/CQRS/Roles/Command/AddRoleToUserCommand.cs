@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using ProjectManagementSystem.Data.Context;
 using ProjectManagementSystem.Data.Entities;
+using ProjectManagementSystem.Repository.Interface;
 
 namespace ProjectManagementSystem.CQRS.Roles.Command;
 
@@ -13,31 +14,36 @@ public class AddRoleToUserCommand : IRequest<bool>
 
 public class AddRoleToUserHandler : IRequestHandler<AddRoleToUserCommand, bool>
 {
-    private readonly ApplicationDBContext _dbContext;
+    private readonly IUnitOfWork _unitOfWork;
 
-    public AddRoleToUserHandler(ApplicationDBContext dbContext)
+    public AddRoleToUserHandler(IUnitOfWork unitOfWork)
     {
-        _dbContext = dbContext;
+        _unitOfWork = unitOfWork;
     }
 
     public async Task<bool> Handle(AddRoleToUserCommand request, CancellationToken cancellationToken)
     {
-        var user = await _dbContext.users.FindAsync(request.UserId);
+        var users = await _unitOfWork.Repository<User>().GetAsync(r=>r.Id == request.UserId);
+        var user = users.FirstOrDefault();
+
         if (user == null)
         {
             return false; // User not found
         }
 
-        var role = await _dbContext.roles.SingleOrDefaultAsync(r => r.Name == request.RoleName);
+        var roles = await _unitOfWork.Repository<Role>().GetAsync(r => r.Name == request.RoleName);
+        var role = roles.FirstOrDefault();
+
         if (role == null)
         {
             return false; // Role not found
         }
 
-        var existingUserRole = await _dbContext.UserRoles
-            .AnyAsync(ur => ur.UserId == request.UserId && ur.RoleId == role.Id);
+        var existingUserRoles = await _unitOfWork.Repository<UserRole>()
+            .GetAsync(ur => ur.UserId == request.UserId && ur.RoleId == role.Id);
 
-        if (existingUserRole)
+
+        if (existingUserRoles.FirstOrDefault() == null)
         {
             return true; // Role already assigned
         }
@@ -48,8 +54,8 @@ public class AddRoleToUserHandler : IRequestHandler<AddRoleToUserCommand, bool>
             RoleId = role.Id
         };
 
-        await _dbContext.UserRoles.AddAsync(userRole);
-        await _dbContext.SaveChangesAsync();
+        await _unitOfWork.Repository<UserRole>().AddAsync(userRole);
+        await _unitOfWork.SaveChangesAsync();
 
         return true; // Successfully added the role
     }
