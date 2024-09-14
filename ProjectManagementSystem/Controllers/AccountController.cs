@@ -35,6 +35,13 @@ namespace ProjectManagementSystem.Controllers
             var result = await _mediator.Send(new VerifyAccountCommand { Email = email, Token = token });
             return result;
         }
+        
+        [HttpGet("ChangePassword")]
+        public async Task<ActionResult<ChangePasswordResultDto>> ChangePassword([FromQuery] ChangePasswordCommand command)
+        {
+            var result = await _mediator.Send(command);
+            return result;
+        }
 
     }
 }

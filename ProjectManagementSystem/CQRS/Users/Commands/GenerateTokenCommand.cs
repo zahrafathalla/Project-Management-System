@@ -11,7 +11,7 @@ namespace ProjectManagementSystem.CQRS.Users.Commands;
 
 public class GenerateTokenCommand : IRequest<string>
 {
-    public User User { get; set; }
+    public User? User { get; set; }
 }
 
 public class GenerateTokenCommandHandler : IRequestHandler<GenerateTokenCommand, string>

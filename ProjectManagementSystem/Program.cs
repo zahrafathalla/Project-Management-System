@@ -14,12 +14,13 @@ using ProjectManagementSystem.Repository.Repository;
 using System.Diagnostics;
 using System.Reflection;
 using System.Text;
+using Microsoft.AspNetCore.Identity;
 
 namespace ProjectManagementSystem
 {
     public class Program
     {
-        public static void Main(string[] args)
+        public static async Task Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
 
@@ -75,6 +76,28 @@ namespace ProjectManagementSystem
 
             builder.Services.AddAutoMapper(typeof(MappingProfile));
             var app = builder.Build();
+
+            #region Update-Database
+
+            using var scope = app.Services.CreateScope(); // Group of services lifetime scopped
+            var services = scope.ServiceProvider; // Services It Self
+
+            var LoggerFactory = services.GetRequiredService<ILoggerFactory>();
+
+            try
+            {
+                var dbcontext = services.GetRequiredService<ApplicationDBContext>(); // Ask CLR for creating object from DBcontext Explicitly  == allow DI For DBcontext (StoreContext)
+                await dbcontext.Database.MigrateAsync();
+
+                await StoreContextseed.seedAsync(dbcontext); // Data seeding
+            }
+            catch (Exception ex)
+            {
+                var Logger = LoggerFactory.CreateLogger<Program>();
+                Logger.LogError(ex, "An error occured during updating database");
+            }
+
+            #endregion
 
             MapperHandler.mapper = app.Services.GetService<IMapper>();
             // Configure the HTTP request pipeline.

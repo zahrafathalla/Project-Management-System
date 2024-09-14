@@ -29,11 +29,6 @@ public class LoginHandler : IRequestHandler<LoginCommand, LoginResponse>
 
     public async Task<LoginResponse> Handle(LoginCommand request, CancellationToken cancellationToken)
     {
-        //var authResult = await _mediator.Send(new GetTokenQuery { Email = request.Email, Password = request.Password });
-
-        //if (!authResult.IsSuccess)
-        //    throw new UnauthorizedAccessException("Invalid credentials");
-        //    //return Result.Failure(UserErrors.InvalidCredentials);
 
         var result = new LoginResponse
         {
@@ -44,11 +39,13 @@ public class LoginHandler : IRequestHandler<LoginCommand, LoginResponse>
 
         if (user == null || !PasswordHasher.checkPassword(request.Password, user.PasswordHash) || !user.IsEmailVerified)
             return result;
+        else
+        {
+            var loginResponse = user.Map<LoginResponse>();
+            loginResponse.Token = await _mediator.Send(new GenerateTokenCommand { User = user });
 
-        var loginResponse =  user.Map<LoginResponse>();
-        loginResponse.Token = await _mediator.Send(new GenerateTokenCommand { User = user });
-
-        return loginResponse;
+            return loginResponse;
+        }
     }
 }
 

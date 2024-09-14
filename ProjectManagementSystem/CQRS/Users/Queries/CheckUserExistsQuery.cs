@@ -25,7 +25,6 @@ namespace ProjectManagementSystem.CQRS.Users.Queries
                             .GetAsync(u=>u.Email == request.Email || u.UserName == request.UserName);
 
             return existingUser.Any();
-
         }
     }
 }
