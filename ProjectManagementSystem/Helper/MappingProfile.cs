@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using ProjectManagementSystem.CQRS.Users.Commands;
 using ProjectManagementSystem.Data.Entities;
+using ProjectManagementSystem.ViewModel;
 
 namespace ProjectManagementSystem.Helper
 {
@@ -10,6 +11,9 @@ namespace ProjectManagementSystem.Helper
         {
             CreateMap<User, CreateAccountToReturnDto>();
             CreateMap<User, LoginResponse>();
+
+            CreateMap<LoginViewModel, LoginCommand>();
+            CreateMap<ChangePasswordViewModel, ChangePasswordCommand>();
 
         }
     }

@@ -50,7 +50,7 @@ namespace ProjectManagementSystem.CQRS.Users.Commands.Orchestrators
                 };
             }
 
-            var user = (await _mediator.Send(new GetUserByEmailQuery { Email = request.Email }));
+            var user = await _mediator.Send(new GetUserByEmailQuery(request.Email));
 
             if (user == null)
             {
@@ -61,12 +61,12 @@ namespace ProjectManagementSystem.CQRS.Users.Commands.Orchestrators
                 };
             }
 
-            var verificationUrl = $"http://localhost:5097/api/Account/verify?email={user.Email}&token={user.VerificationToken}";
+            var verificationUrl = $"http://localhost:5097/api/Account/verify?email={user.Data.Email}&token={user.Data.VerificationToken}";
 
 
             var emailSent = await _mediator.Send(new SendVerificationEmailCommand
             {
-                ToEmail = user.Email,
+                ToEmail = user.Data.Email,
                 Subject = "Verify your email",
                 Body = $"Please verify your email address by clicking the link: <a href='{verificationUrl}'>Verify your account</a>"
             });

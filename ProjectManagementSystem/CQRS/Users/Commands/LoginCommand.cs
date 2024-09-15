@@ -1,55 +1,66 @@
 ﻿using MediatR;
+using ProjectManagementSystem.Abstractions;
 using ProjectManagementSystem.CQRS.Users.Queries;
+using ProjectManagementSystem.Data.Entities;
+using ProjectManagementSystem.Errors;
 using ProjectManagementSystem.Helper;
 
-namespace ProjectManagementSystem.CQRS.Users.Commands;
-
-
-public class LoginCommand : IRequest<LoginResponse>
+namespace ProjectManagementSystem.CQRS.Users.Commands
 {
-    public string Email { get; set; }
-    public string Password { get; set; }
-}
-public class LoginResponse()
-{
-    public int Id { get; set; }
-    public string Email { get; set; }
-    public string Token { get; set; }
-    public bool IsSuccessed { get; set; } = true;
-}
 
-public class LoginHandler : IRequestHandler<LoginCommand, LoginResponse>
-{
-    private readonly IMediator _mediator;
-
-    public LoginHandler(IMediator mediator)
+    public class LoginCommand : IRequest<Result<LoginResponse>>
     {
-        _mediator = mediator;
+        public string Email { get; set; }
+        public string Password { get; set; }
     }
 
-    public async Task<LoginResponse> Handle(LoginCommand request, CancellationToken cancellationToken)
+    public class LoginResponse
     {
+        public int Id { get; set; }
+        public string Email { get; set; }
+        public string Token { get; set; }
+    }
 
-        var result = new LoginResponse
+    public class LoginHandler : IRequestHandler<LoginCommand, Result<LoginResponse>>
+    {
+        private readonly IMediator _mediator;
+        private readonly ITokenGenerator _tokenGenerator;
+
+        public LoginHandler(IMediator mediator, ITokenGenerator tokenGenerator)
         {
-            IsSuccessed = false,
-        };
+            _mediator = mediator;
+            _tokenGenerator = tokenGenerator;
+        }
 
-        var user = await _mediator.Send(new GetUserByEmailQuery { Email = request.Email });
+        public async Task<Result<LoginResponse>> Handle(LoginCommand request, CancellationToken cancellationToken)
+        {
+            if (string.IsNullOrEmpty(request.Email) || string.IsNullOrEmpty(request.Password))
+            {
+                return Result.Failure<LoginResponse>(UserErrors.InvalidCredentials);
+            }
 
-        if (user == null || !PasswordHasher.checkPassword(request.Password, user.PasswordHash) || !user.IsEmailVerified)
-            return result;
+            var userResult = await _mediator.Send(new GetUserByEmailQuery(request.Email));
 
-        var loginResponse = user.Map<LoginResponse>();
-        loginResponse.Token = await _mediator.Send(new GenerateTokenCommand { User = user });
+            if (!userResult.IsSuccess)
+            {
+                return Result.Failure<LoginResponse>(UserErrors.InvalidCredentials);
+            }
 
-        return loginResponse;
+            var user = userResult.Data;
+            if (!PasswordHasher.checkPassword(request.Password, user.PasswordHash) || !user.IsEmailVerified)
+            {
+                return Result.Failure<LoginResponse>(UserErrors.InvalidCredentials);
+            }
 
+            var token = _tokenGenerator.GenerateToken(user);
+            var loginResponse = new LoginResponse
+            {
+                Email = request.Email,
+                Token = token,
+                Id = user.Id
+            };
 
+            return Result.Success(loginResponse);
+        }
     }
 }
-
-
-
-
-

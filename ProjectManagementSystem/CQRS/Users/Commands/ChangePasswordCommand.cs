@@ -5,10 +5,13 @@ using ProjectManagementSystem.Repository.Interface;
 using MediatR;
 using ProjectManagementSystem.Helper;
 using System.ComponentModel.DataAnnotations;
+using ProjectManagementSystem.CQRS.Users.Queries;
+using ProjectManagementSystem.Abstractions;
+using ProjectManagementSystem.Errors;
 
 namespace ProjectManagementSystem.CQRS.Users.Commands
 {
-    public class ChangePasswordCommand : IRequest<ChangePasswordResultDto>
+    public class ChangePasswordCommand : IRequest<Result<bool>>
     {
         [Required]
         [EmailAddress]
@@ -27,46 +30,37 @@ namespace ProjectManagementSystem.CQRS.Users.Commands
         public string ErrorMessage { get; set; }
     }
 
-    public class ChangePasswordCommandHandler : IRequestHandler<ChangePasswordCommand, ChangePasswordResultDto>
+    public class ChangePasswordCommandHandler : IRequestHandler<ChangePasswordCommand, Result<bool>>
     {
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IMediator _mediator;
 
-        public ChangePasswordCommandHandler(IUnitOfWork unitOfWork)
+        public ChangePasswordCommandHandler(IUnitOfWork unitOfWork,IMediator mediator)
         {
             _unitOfWork = unitOfWork;
+            _mediator = mediator;
         }
 
-        public async Task<ChangePasswordResultDto> Handle(ChangePasswordCommand request, CancellationToken cancellationToken)
+        public async Task<Result<bool>> Handle(ChangePasswordCommand request, CancellationToken cancellationToken)
         {
-            var users = await _unitOfWork.Repository<User>().GetAsync(u => u.Email == request.Email);
-           var user = users.FirstOrDefault();
+            var user = await _mediator.Send(new GetUserByEmailQuery(request.Email));
 
             if (user == null)
             {
-                return new ChangePasswordResultDto
-                {
-                    IsSuccessed = false,
-                    ErrorMessage = "User not found"
-                };
+                return Result.Failure<bool>(UserErrors.UserNotFound);
             }
 
-            if (!PasswordHasher.checkPassword(request.CurrentPassword, user.PasswordHash))
+            if (!PasswordHasher.checkPassword(request.CurrentPassword, user.Data.PasswordHash))
             {
-                return new ChangePasswordResultDto
-                {
-                    IsSuccessed = false,
-                    ErrorMessage = "Current password is incorrect"
-                };
+                return Result.Failure<bool>(UserErrors.InvalidCurrentPassword);
+
             }
 
-            user.PasswordHash = PasswordHasher.HashPassword(request.NewPassword);
-            _unitOfWork.Repository<User>().Update(user);
+            user.Data.PasswordHash = PasswordHasher.HashPassword(request.NewPassword);
+            _unitOfWork.Repository<User>().Update(user.Data);
             await _unitOfWork.SaveChangesAsync();
 
-            return new ChangePasswordResultDto
-            {
-                IsSuccessed = true
-            };
+            return Result.Success(true);
         }
     }
 }

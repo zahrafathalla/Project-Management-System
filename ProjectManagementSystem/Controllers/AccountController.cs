@@ -1,7 +1,10 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using ProjectManagementSystem.Abstractions;
 using ProjectManagementSystem.CQRS.Users.Commands;
 using ProjectManagementSystem.CQRS.Users.Commands.Orchestrators;
+using ProjectManagementSystem.Helper;
+using ProjectManagementSystem.ViewModel;
 
 namespace ProjectManagementSystem.Controllers
 {
@@ -16,10 +19,15 @@ namespace ProjectManagementSystem.Controllers
         }
 
         [HttpPost("login")]
-        public async Task<ActionResult<LoginResponse>> Login([FromBody] LoginCommand command)
+        public async Task<Result<LoginResponse>> Login([FromBody] LoginViewModel viewModel)
         {
+            var command = viewModel.Map<LoginCommand>();
             var response = await _mediator.Send(command);
-            return Ok(response);
+            if (!response.IsSuccess) 
+            {
+                return Result.Failure<LoginResponse>(response.Error);
+            }
+            return response;
         }
 
         [HttpPost("CreateAccount")]
@@ -37,11 +45,11 @@ namespace ProjectManagementSystem.Controllers
         }
         
         [HttpPost("ChangePassword")]
-        public async Task<ActionResult<ChangePasswordResultDto>> ChangePassword([FromQuery] ChangePasswordCommand command)
+        public async Task<Result<bool>> ChangePassword([FromBody] ChangePasswordViewModel viewModel)
         {
-            var result = await _mediator.Send(command);
-            return result;
+            var command = viewModel.Map<ChangePasswordCommand>();
+            var response = await _mediator.Send(command);
+            return response;
         }
-
     }
 }

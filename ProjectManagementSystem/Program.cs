@@ -35,7 +35,7 @@ namespace ProjectManagementSystem
             builder.Services.AddScoped<IGenericRepository<User>, GenericRepository<User>>();
 
             builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
-
+            builder.Services.AddScoped<ITokenGenerator, TokenGenerator>();
 
             builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(typeof(Program).Assembly));
 
