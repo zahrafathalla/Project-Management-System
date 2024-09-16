@@ -23,10 +23,7 @@ namespace ProjectManagementSystem.Controllers
         {
             var command = viewModel.Map<LoginCommand>();
             var response = await _mediator.Send(command);
-            if (!response.IsSuccess) 
-            {
-                return Result.Failure<LoginResponse>(response.Error);
-            }
+           
             return response;
         }
 

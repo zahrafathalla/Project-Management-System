@@ -7,19 +7,9 @@ using ProjectManagementSystem.Helper;
 
 namespace ProjectManagementSystem.CQRS.Users.Commands
 {
-
-    public class LoginCommand : IRequest<Result<LoginResponse>>
-    {
-        public string Email { get; set; }
-        public string Password { get; set; }
-    }
-
-    public class LoginResponse
-    {
-        public int Id { get; set; }
-        public string Email { get; set; }
-        public string Token { get; set; }
-    }
+    public record LoginCommand (string Email, string Password) : IRequest<Result<LoginResponse>>;
+    
+    public record LoginResponse(int Id, string Email, string Token);
 
     public class LoginHandler : IRequestHandler<LoginCommand, Result<LoginResponse>>
     {
@@ -53,12 +43,7 @@ namespace ProjectManagementSystem.CQRS.Users.Commands
             }
 
             var token = _tokenGenerator.GenerateToken(user);
-            var loginResponse = new LoginResponse
-            {
-                Email = request.Email,
-                Token = token,
-                Id = user.Id
-            };
+            var loginResponse = new LoginResponse(user.Id,request.Email,token);
 
             return Result.Success(loginResponse);
         }

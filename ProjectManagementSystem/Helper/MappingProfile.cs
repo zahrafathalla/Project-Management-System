@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using ProjectManagementSystem.CQRS.Roles.Command;
 using ProjectManagementSystem.CQRS.Users.Commands;
 using ProjectManagementSystem.Data.Entities;
 using ProjectManagementSystem.ViewModel;
@@ -14,6 +15,9 @@ namespace ProjectManagementSystem.Helper
 
             CreateMap<LoginViewModel, LoginCommand>();
             CreateMap<ChangePasswordViewModel, ChangePasswordCommand>();
+
+            CreateMap<AddRoleToUserViewModel, AddRoleToUserCommand>();
+
 
         }
     }

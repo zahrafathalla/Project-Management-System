@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using ProjectManagementSystem.CQRS.Roles.Command;
 using ProjectManagementSystem.CQRS.Users.Queries;
 using ProjectManagementSystem.Data.Entities;
 
@@ -70,6 +71,9 @@ namespace ProjectManagementSystem.CQRS.Users.Commands.Orchestrators
                 Subject = "Verify your email",
                 Body = $"Please verify your email address by clicking the link: <a href='{verificationUrl}'>Verify your account</a>"
             });
+
+
+           var IsAddedToDefaultRole =  await _mediator.Send(new AssignRegisterUserToDefaultRoleCommand(user.Data));
 
             if (!emailSent)
             {
