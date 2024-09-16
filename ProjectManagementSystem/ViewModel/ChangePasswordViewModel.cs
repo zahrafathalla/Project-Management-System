@@ -9,3 +9,4 @@ public record ChangePasswordViewModel(
     string Email,
     string CurrentPassword,
     string NewPassword);
+

@@ -9,8 +9,7 @@
         public string PhoneNumber { get; set; }
         public string Country { get; set; }
         public string? VerificationToken { get; set; }
-
-
+        public string? PasswordResetCode { get; set; }
         public ICollection<UserRole> UserRoles { get; set; }
     }
 }

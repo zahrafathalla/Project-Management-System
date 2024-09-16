@@ -1,6 +1,4 @@
-﻿using static System.Runtime.InteropServices.JavaScript.JSType;
-
-namespace ProjectManagementSystem.Errors;
+﻿namespace ProjectManagementSystem.Errors;
 
 public class UserErrors
 {
@@ -16,4 +14,9 @@ public class UserErrors
     public static readonly Error InvalidCurrentPassword = 
         new Error("Current password is incorrect.", "Current password is incorrect.",StatusCodes.Status400BadRequest);
 
+    public static readonly Error UserNotVerified =
+       new Error("Not Verified.", "user is not verified", StatusCodes.Status400BadRequest);
+
+    public static readonly Error InvalidResetCode=
+     new Error("InvalidResetCode", "Invalid reset code", StatusCodes.Status400BadRequest);
 }

@@ -7,7 +7,7 @@ using ProjectManagementSystem.Authontication;
 using ProjectManagementSystem.Data.Entities;
 using ProjectManagementSystem.Helper;
 
-public class TokenGenerator: ITokenGenerator
+public class TokenGenerator : ITokenGenerator
 {
     private readonly JwtOptions _options;
 

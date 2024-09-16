@@ -1,6 +1,4 @@
 ﻿using MediatR;
-using Microsoft.EntityFrameworkCore;
-using ProjectManagementSystem.Data.Context;
 using ProjectManagementSystem.Data.Entities;
 using ProjectManagementSystem.Repository.Interface;
 
