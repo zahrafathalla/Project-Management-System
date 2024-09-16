@@ -1,12 +1,18 @@
-﻿using MediatR;
-using ProjectManagementSystem.Abstractions;
+﻿
 using System.ComponentModel.DataAnnotations;
-using System.Net.Mail;
 
 namespace ProjectManagementSystem.ViewModel;
 
-public record ChangePasswordViewModel(
-    string Email,
-    string CurrentPassword,
-    string NewPassword);
 
+public class ChangePasswordViewModel
+{
+    [Required]
+    [EmailAddress]
+    public string Email { get; set; }
+    [Required]
+    public string CurrentPassword { get; set; }
+    [Required]
+    [RegularExpression(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$",
+    ErrorMessage = "New password must be at least 8 characters long, and include at least one uppercase letter, one lowercase letter, one digit, and one special character.")]
+    public string NewPassword { get; set; }
+}

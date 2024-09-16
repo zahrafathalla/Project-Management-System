@@ -19,4 +19,15 @@ public class UserErrors
 
     public static readonly Error InvalidResetCode=
      new Error("InvalidResetCode", "Invalid reset code", StatusCodes.Status400BadRequest);
+
+    public static readonly Error UserAlreadyExists =
+    new("User.UserAlreadyExists", "User Already Exists", StatusCodes.Status409Conflict);
+
+    public static readonly Error UserDoesntCreated =
+    new("User.UserDoesntCreated", "User Doesnt Created", StatusCodes.Status409Conflict);
+    
+    public static readonly Error FailedToSendVerificationEmail =
+    new("User.FailedToSendVerificationEmail", "Failed to send verification email", StatusCodes.Status409Conflict);
+
+
 }

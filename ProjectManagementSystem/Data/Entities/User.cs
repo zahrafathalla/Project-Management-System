@@ -5,7 +5,7 @@
         public string UserName { get; set; }
         public string Email { get; set; }
         public string PasswordHash { get; set; } 
-        public bool IsEmailVerified { get; set; } 
+        public bool IsEmailVerified { get; set; } =false;
         public string PhoneNumber { get; set; }
         public string Country { get; set; }
         public string? VerificationToken { get; set; }

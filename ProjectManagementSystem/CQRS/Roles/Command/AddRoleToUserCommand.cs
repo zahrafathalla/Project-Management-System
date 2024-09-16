@@ -12,18 +12,7 @@ using System.Linq;
 
 namespace ProjectManagementSystem.CQRS.Roles.Command;
 
-public class AddRoleToUserCommand : IRequest<Result<bool>>
-{
-
-    public User user { get; set; }
-    public string roleName { get; set; }
-
-    public AddRoleToUserCommand(User user,string roleName)
-    {
-        this.roleName = roleName;
-        this.user = user;
-    }
-}
+public record AddRoleToUserCommand (User user, string roleName) : IRequest<Result<bool>>;
 
 public class AddRoleToUserHandler : IRequestHandler<AddRoleToUserCommand, Result<bool>>
 {

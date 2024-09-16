@@ -8,15 +8,7 @@ using ProjectManagementSystem.Repository.Interface;
 
 namespace ProjectManagementSystem.CQRS.Users.Queries
 {
-    public class GetUserByEmailQuery : IRequest<Result<User>>
-    {
-        public string Email { get; set; }
-
-        public GetUserByEmailQuery(string email)
-        {
-            Email = email;
-        }
-    }
+    public record GetUserByEmailQuery(string Email) : IRequest<Result<User>>;
 
     public class GetUserByEmailQueryHandler : IRequestHandler<GetUserByEmailQuery, Result<User>>
     {

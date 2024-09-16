@@ -4,16 +4,7 @@ using ProjectManagementSystem.Data.Entities;
 
 namespace ProjectManagementSystem.CQRS.Roles.Command;
 
-public class AssignRegisterUserToDefaultRoleCommand : IRequest<bool>
-{
-    public AssignRegisterUserToDefaultRoleCommand(User user)
-    {
-        this.user = user;
-    }
-
-    public User user { get; set; }
-}
-
+public record AssignRegisterUserToDefaultRoleCommand (User user) : IRequest<bool>;
 
 public class AssignRegisterUserToDefaultRoleHandler : IRequestHandler<AssignRegisterUserToDefaultRoleCommand, bool>
 {

@@ -1,29 +1,22 @@
 ﻿using MediatR;
+using ProjectManagementSystem.Abstractions;
 using ProjectManagementSystem.CQRS.Roles.Command;
 using ProjectManagementSystem.CQRS.Users.Queries;
 using ProjectManagementSystem.Data.Entities;
+using ProjectManagementSystem.Errors;
 using ProjectManagementSystem.Helper;
 
 namespace ProjectManagementSystem.CQRS.Users.Commands.Orchestrators
 {
-    public class CreateAccountOrchestrator : IRequest<CreateAccountOrchestratorToReturnDto>
-    {
-        public string UserName { get; set; }
-        public string Email { get; set; }
-        public string Country { get; set; }
-        public string PhoneNumber { get; set; }
-        public string Password { get; set; }
-    }
+    public record CreateAccountOrchestrator(
+        string UserName,
+        string Email, 
+        string Country, 
+        string PhoneNumber, 
+        string Password) : IRequest<Result<bool>>;
 
-    public class CreateAccountOrchestratorToReturnDto
-    {
-        public int Id { get; set; }
-        public string Email { get; set; }
-        public bool IsSuccess { get; set; } = true;
-        public string ErrorMessage { get; set; }
-    }
 
-    public class CreateAccountOrchestratorHandler : IRequestHandler<CreateAccountOrchestrator, CreateAccountOrchestratorToReturnDto>
+    public class CreateAccountOrchestratorHandler : IRequestHandler<CreateAccountOrchestrator, Result<bool>>
     {
         private readonly IMediator _mediator;
 
@@ -32,62 +25,40 @@ namespace ProjectManagementSystem.CQRS.Users.Commands.Orchestrators
             _mediator = mediator;
         }
 
-        public async Task<CreateAccountOrchestratorToReturnDto> Handle(CreateAccountOrchestrator request, CancellationToken cancellationToken)
+        public async Task<Result<bool>> Handle(CreateAccountOrchestrator request, CancellationToken cancellationToken)
         {
-            var createAccountResult = await _mediator.Send(new CreateAccountCommand
-            {
-                UserName = request.UserName,
-                Email = request.Email,
-                Country = request.Country,
-                PhoneNumber = request.PhoneNumber,
-                Password = request.Password
-            });
+            var command = request.Map<CreateAccountCommand>();
 
-            if (!createAccountResult.IsSuccessed)
+            var createAccountResult = await _mediator.Send(command);
+
+            if (!createAccountResult.IsSuccess)
             {
-                return new CreateAccountOrchestratorToReturnDto
-                {
-                    IsSuccess = false,
-                    ErrorMessage = createAccountResult.ErrorMessage
-                };
+                return Result.Failure<bool>(UserErrors.UserDoesntCreated);
             }
 
-            var user = await _mediator.Send(new GetUserByEmailQuery(request.Email));
+            var userResult = await _mediator.Send(new GetUserByEmailQuery(request.Email));
 
-            if (user == null)
+            if (!userResult.IsSuccess)
             {
-                return new CreateAccountOrchestratorToReturnDto
-                {
-                    IsSuccess = false,
-                    ErrorMessage = "User not found "
-                };
+                return Result.Failure<bool>(UserErrors.UserDoesntCreated);
             }
-
-            var verificationUrl = $"http://localhost:5097/api/Account/verify?email={user.Data.Email}&token={user.Data.VerificationToken}";
+            var user = userResult.Data;
+            var verificationUrl = $"http://localhost:5097/api/Account/verify?email={user.Email}&token={user.VerificationToken}";
 
             var emailSent = await EmailSender.SendEmailAsync(
-                user.Data.Email,
+                user.Email,
                 "Verify your email",
                 $"Please verify your email address by clicking the link: <a href='{verificationUrl}'>Verify your account</a>"
             );
 
-
-           var IsAddedToDefaultRole =  await _mediator.Send(new AssignRegisterUserToDefaultRoleCommand(user.Data));
+            var IsuserAddedToDefaultRole = await _mediator.Send(new AssignRegisterUserToDefaultRoleCommand(user));
 
             if (!emailSent)
             {
-                return new CreateAccountOrchestratorToReturnDto
-                {
-                    IsSuccess = false,
-                    ErrorMessage = "Failed to send verification email."
-                };
+                Result.Failure<bool>(UserErrors.FailedToSendVerificationEmail);
             }
 
-            return new CreateAccountOrchestratorToReturnDto
-            {
-                Id = createAccountResult.Id,
-                Email = createAccountResult.Email
-            };
+            return Result.Success(true);
         }
     }
 }

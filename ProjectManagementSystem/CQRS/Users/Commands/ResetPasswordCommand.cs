@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Mvc;
 using ProjectManagementSystem.Abstractions;
 using ProjectManagementSystem.Data.Entities;
 using ProjectManagementSystem.Errors;
@@ -7,12 +8,7 @@ using ProjectManagementSystem.Repository.Interface;
 
 namespace ProjectManagementSystem.CQRS.Users.Commands
 {
-    public class ResetPasswordCommand : IRequest<Result<bool>>
-    {
-        public string Email { get; set; }
-        public string Code { get; set; }
-        public string NewPassword { get; set; }
-    }
+    public record ResetPasswordCommand (string Email, string ResetCode, string NewPassword) : IRequest<Result<bool>>;
 
     public class ResetPasswordCommandHandler : IRequestHandler<ResetPasswordCommand, Result<bool>>
     {
@@ -29,7 +25,7 @@ namespace ProjectManagementSystem.CQRS.Users.Commands
             if (user == null)
                 return Result.Failure<bool>(UserErrors.UserNotFound);
 
-            if (user.PasswordResetCode != request.Code)
+            if (user.PasswordResetCode != request.ResetCode)
                 return Result.Failure<bool>(UserErrors.InvalidResetCode);
 
             user.PasswordHash = PasswordHasher.HashPassword(request.NewPassword); 

@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Mvc;
 using ProjectManagementSystem.Abstractions;
 using ProjectManagementSystem.CQRS.Users.Queries;
 using ProjectManagementSystem.Data.Entities;
@@ -9,24 +10,21 @@ using ProjectManagementSystem.Repository.Repository;
 
 namespace ProjectManagementSystem.CQRS.Users.Commands
 {
-    public class ForgotPasswordCommand : IRequest<Result<bool>>
-    {
-        public string Email { get; set; }
-    }
+    public record ForgotPasswordCommand(string Email) : IRequest<Result<bool>>;
     public class ForgotPasswordCommandHandler : IRequestHandler<ForgotPasswordCommand, Result<bool>>
     {
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IMediator _mediator;
 
-        public ForgotPasswordCommandHandler(IUnitOfWork unitOfWork)
+        public ForgotPasswordCommandHandler(IUnitOfWork unitOfWork, IMediator mediator)
         {
             _unitOfWork = unitOfWork;
+            _mediator = mediator;
         }
         public async Task<Result<bool>> Handle(ForgotPasswordCommand request, CancellationToken cancellationToken)
         {
-            //temporarity untill i change GetUserByEmailQuery to return user not result(user)
-            var userResult = await _unitOfWork.Repository<User>().GetAsync(u => u.Email == request.Email);
-            var user = userResult.FirstOrDefault();
-            
+            var user = (await _mediator.Send(new GetUserByEmailQuery(request.Email))).Data;
+
             if (user == null)
                 return Result.Failure<bool>(UserErrors.UserNotFound);
 

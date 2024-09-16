@@ -6,15 +6,7 @@ using ProjectManagementSystem.Repository.Interface;
 
 namespace ProjectManagementSystem.CQRS.Roles.Query;
 
-public class GetRoleByNameQuery : IRequest<Result<Role>>
-{
-    public string Name { get; set; }
-    public GetRoleByNameQuery(string name)
-    {
-        Name = name;
-    }
-
-}
+public record GetRoleByNameQuery(string Name) : IRequest<Result<Role>>;
 
 public class GetRoleByNameQueryHandler : IRequestHandler<GetRoleByNameQuery, Result<Role>>
 {

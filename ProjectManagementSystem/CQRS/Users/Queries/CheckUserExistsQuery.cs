@@ -5,11 +5,7 @@ using System.Runtime.CompilerServices;
 
 namespace ProjectManagementSystem.CQRS.Users.Queries
 {
-    public class CheckUserExistsQuery :IRequest<bool>
-    {
-        public string UserName { get; set; }
-        public string Email {  get; set; }
-    }
+    public record CheckUserExistsQuery(string UserName, string Email) :IRequest<bool>;
 
     public class CheckUserExistsQueryHandler : IRequestHandler<CheckUserExistsQuery, bool>
     {

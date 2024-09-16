@@ -7,16 +7,7 @@ using System.Data;
 
 namespace ProjectManagementSystem.CQRS.Roles.Query;
 
-public class GetUserRoleByUserIdQuery : IRequest<Result<IEnumerable<UserRole>>>
-{
-    public int UserId { get; set; }
-    public int RoleId { get; set; }
-    public GetUserRoleByUserIdQuery(int userId, int roleId)
-    {
-        UserId = userId;
-        RoleId = roleId;
-    }
-}
+public record GetUserRoleByUserIdQuery(int UserId, int RoleId) : IRequest<Result<IEnumerable<UserRole>>>;
 
 public class GetUserRoleByUserIdQueryHandler : IRequestHandler<GetUserRoleByUserIdQuery, Result<IEnumerable<UserRole>>>
 {
