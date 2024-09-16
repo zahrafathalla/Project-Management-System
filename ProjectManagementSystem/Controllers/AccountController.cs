@@ -26,6 +26,7 @@ namespace ProjectManagementSystem.Controllers
            
             return response;
         }
+  
 
         [HttpPost("CreateAccount")]
         public async Task<ActionResult<CreateAccountOrchestratorToReturnDto>> CreateAccount([FromBody] CreateAccountOrchestrator command)
@@ -45,6 +46,32 @@ namespace ProjectManagementSystem.Controllers
         public async Task<Result<bool>> ChangePassword([FromBody] ChangePasswordViewModel viewModel)
         {
             var command = viewModel.Map<ChangePasswordCommand>();
+            var response = await _mediator.Send(command);
+            return response;
+        }
+
+        [HttpPost("forgot-password")]
+        public async Task<Result<bool>> ForgotPassword([FromBody] string email)
+        {
+            var command = new ForgotPasswordCommand
+            {
+                Email = email
+            };
+
+            var response = await _mediator.Send(command);
+            return response;
+        }
+
+        [HttpPost("reset-password")]
+        public async Task<Result<bool>> ResetPassword([FromQuery] string email , [FromQuery] string resetCode, [FromBody] string NewPassword)
+        {
+            var command = new ResetPasswordCommand
+            {
+                Email = email,
+                Code = resetCode,
+                NewPassword = NewPassword
+            };
+
             var response = await _mediator.Send(command);
             return response;
         }

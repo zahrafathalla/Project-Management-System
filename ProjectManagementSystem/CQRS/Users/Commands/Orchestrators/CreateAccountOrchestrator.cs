@@ -2,6 +2,7 @@
 using ProjectManagementSystem.CQRS.Roles.Command;
 using ProjectManagementSystem.CQRS.Users.Queries;
 using ProjectManagementSystem.Data.Entities;
+using ProjectManagementSystem.Helper;
 
 namespace ProjectManagementSystem.CQRS.Users.Commands.Orchestrators
 {
@@ -64,13 +65,11 @@ namespace ProjectManagementSystem.CQRS.Users.Commands.Orchestrators
 
             var verificationUrl = $"http://localhost:5097/api/Account/verify?email={user.Data.Email}&token={user.Data.VerificationToken}";
 
-
-            var emailSent = await _mediator.Send(new SendVerificationEmailCommand
-            {
-                ToEmail = user.Data.Email,
-                Subject = "Verify your email",
-                Body = $"Please verify your email address by clicking the link: <a href='{verificationUrl}'>Verify your account</a>"
-            });
+            var emailSent = await EmailSender.SendEmailAsync(
+                user.Data.Email,
+                "Verify your email",
+                $"Please verify your email address by clicking the link: <a href='{verificationUrl}'>Verify your account</a>"
+            );
 
 
            var IsAddedToDefaultRole =  await _mediator.Send(new AssignRegisterUserToDefaultRoleCommand(user.Data));
