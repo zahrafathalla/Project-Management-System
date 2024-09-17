@@ -11,14 +11,24 @@ namespace ProjectManagementSystem.Data.Context
         {
             
         }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            base.OnModelCreating(modelBuilder);
+
+            foreach (var relationship in modelBuilder.Model.GetEntityTypes().SelectMany(e => e.GetForeignKeys()))
+            {
+                relationship.DeleteBehavior = DeleteBehavior.Restrict;
+            }
+
             modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
         }
 
         public DbSet<User> users { get; set; }
         public DbSet<Role> roles { get; set; }
         public DbSet<UserRole> UserRoles { get; set; }
-
+        public DbSet<Project> Projects { get; set; }
+        public DbSet<TasK> TasKs { get; set; }
+        public DbSet<UserProject> UserProjects { get; set; }
     }
 }

@@ -9,7 +9,7 @@ using ProjectManagementSystem.Helper;
 
 public static class TokenGenerator 
 {
-    public static JwtOptions _options { get; set; }
+    public static JwtOptions options { get; set; } = null!;
 
     public static string GenerateToken(User user)
     {
@@ -19,16 +19,16 @@ public static class TokenGenerator
             new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
         };
 
-        var symmetricSecurityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_options.Key));
+        var symmetricSecurityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(options.Key));
         var signingCredentials = new SigningCredentials(symmetricSecurityKey, SecurityAlgorithms.HmacSha256);
 
 
         var tokenDescriptor = new SecurityTokenDescriptor
         {
-            Issuer = _options.Issuer,
-            Audience = _options.Audience,
+            Issuer = options.Issuer,
+            Audience = options.Audience,
             Subject = new ClaimsIdentity(claims),
-            Expires = DateTime.UtcNow.AddMinutes(_options.ExpiryMinutes),
+            Expires = DateTime.UtcNow.AddMinutes(options.ExpiryMinutes),
             SigningCredentials = signingCredentials
         };
 

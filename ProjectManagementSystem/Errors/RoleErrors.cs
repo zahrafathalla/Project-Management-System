@@ -11,5 +11,8 @@ public class RoleErrors
 
     public static readonly Error RoleAlreadyExists =
         new("Role.RoleAlreadyExists", "Role Already Exists", StatusCodes.Status409Conflict);
+    
+    public static readonly Error UserNotAssignedToThatRole =
+        new("Role.UserNotAssignedToThatRole", "UserNotAssignedToThatRole", StatusCodes.Status400BadRequest);
 
 }

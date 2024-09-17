@@ -51,7 +51,7 @@ namespace ProjectManagementSystem.CQRS.Users.Commands.Orchestrators
                 $"Please verify your email address by clicking the link: <a href='{verificationUrl}'>Verify your account</a>"
             );
 
-            var IsuserAddedToDefaultRole = await _mediator.Send(new AssignRegisteredUserToDefaultRoleCommand(user));
+            var IsuserAddedToDefaultRole = await _mediator.Send(new AssignRegisteredUserToDefaultRoleCommand(user.Id));
 
             if (!emailSent)
             {

@@ -2,6 +2,6 @@
 
 public class AddRoleToUserViewModel
 {
-    public string Email { get; set; }
+    public int UserId { get; set; }
     public string RoleName { get; set; }
 }

@@ -25,10 +25,8 @@ namespace ProjectManagementSystem
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            // Add services to the container.
-
             builder.Services.AddControllers();
-            // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
@@ -100,9 +98,8 @@ namespace ProjectManagementSystem
             #endregion
 
             MapperHandler.mapper = app.Services.GetService<IMapper>()!;
-            TokenGenerator._options = app.Services.GetService<IOptions<JwtOptions>>()!.Value;
+            TokenGenerator.options = app.Services.GetService<IOptions<JwtOptions>>()!.Value;
 
-            // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
             {
                 app.UseSwagger();

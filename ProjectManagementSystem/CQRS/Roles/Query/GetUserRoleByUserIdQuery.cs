@@ -7,9 +7,9 @@ using System.Data;
 
 namespace ProjectManagementSystem.CQRS.Roles.Query;
 
-public record GetUserRoleByUserIdQuery(int UserId, int RoleId) : IRequest<Result<IEnumerable<UserRole>>>;
+public record GetUserRoleByUserIdQuery(int UserId, int RoleId) : IRequest<Result<UserRole>>;
 
-public class GetUserRoleByUserIdQueryHandler : IRequestHandler<GetUserRoleByUserIdQuery, Result<IEnumerable<UserRole>>>
+public class GetUserRoleByUserIdQueryHandler : IRequestHandler<GetUserRoleByUserIdQuery, Result<UserRole>>
 {
     private readonly IUnitOfWork _unitOfWork;
 
@@ -18,10 +18,15 @@ public class GetUserRoleByUserIdQueryHandler : IRequestHandler<GetUserRoleByUser
         _unitOfWork = unitOfWork;
     }
 
-    public async Task<Result<IEnumerable<UserRole>>> Handle(GetUserRoleByUserIdQuery request, CancellationToken cancellationToken)
+    public async Task<Result<UserRole>> Handle(GetUserRoleByUserIdQuery request, CancellationToken cancellationToken)
     {
-        var UserRoles = await _unitOfWork.Repository<UserRole>()
-           .GetAsync(ur => ur.UserId == request.UserId && ur.RoleId == request.RoleId);
+        var UserRoles = (await _unitOfWork.Repository<UserRole>()
+           .GetAsync(ur => ur.UserId == request.UserId && ur.RoleId == request.RoleId)).FirstOrDefault();
+
+        if (UserRoles == null)
+        {
+            return Result.Failure<UserRole>(RoleErrors.UserNotAssignedToThatRole);
+        }
 
         return Result.Success(UserRoles);
     }

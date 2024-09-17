@@ -22,13 +22,7 @@ public class RolesController : BaseController
     [HttpPost("AddRoleToUser")]
     public async Task<Result<bool>> AddRoleToUser([FromBody] AddRoleToUserViewModel viewModel)
     {
-      var resultuser = await _mediator.Send(new GetUserByEmailQuery(viewModel.Email));
-
-        if (resultuser.IsSuccess)
-        {
-            var response = await _mediator.Send(new AddRoleToUserCommand(resultuser.Data,viewModel.RoleName));
-            return Result.Success(true);
-        }
-        return Result.Failure<bool>(UserErrors.UserNotFound);
+        var response = await _mediator.Send(new AddRoleToUserCommand(viewModel.UserId, viewModel.RoleName));
+        return response;
     }
 }
