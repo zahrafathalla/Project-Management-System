@@ -15,4 +15,6 @@ public class RoleErrors
     public static readonly Error UserNotAssignedToThatRole =
         new("Role.UserNotAssignedToThatRole", "UserNotAssignedToThatRole", StatusCodes.Status400BadRequest);
 
+    public static readonly Error RoleNotAssigned =
+       new("Role.RoleNotAssigned", "Role Not Assigned", StatusCodes.Status400BadRequest);
 }

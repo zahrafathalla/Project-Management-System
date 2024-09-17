@@ -32,7 +32,9 @@ namespace ProjectManagementSystem.CQRS.Users.Commands
             }
 
             var user = userResult.Data;
+
             user.IsEmailVerified = true;
+            user.VerificationToken = null;
 
             _unitOfWork.Repository<User>().Update(user);
             await _unitOfWork.SaveChangesAsync();
