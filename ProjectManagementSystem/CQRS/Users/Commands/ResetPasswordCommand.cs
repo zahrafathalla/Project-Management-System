@@ -28,7 +28,9 @@ namespace ProjectManagementSystem.CQRS.Users.Commands
             if (user.PasswordResetCode != request.ResetCode)
                 return Result.Failure<bool>(UserErrors.InvalidResetCode);
 
-            user.PasswordHash = PasswordHasher.HashPassword(request.NewPassword); 
+            user.PasswordHash = PasswordHasher.HashPassword(request.NewPassword);
+
+            user.PasswordResetCode = null;
 
             _unitOfWork.Repository<User>().Update(user);
             await _unitOfWork.SaveChangesAsync();

@@ -1,9 +1,9 @@
 ﻿using MediatR;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using ProjectManagementSystem.Abstractions;
 using ProjectManagementSystem.CQRS.Roles.Command;
 using ProjectManagementSystem.CQRS.Users.Queries;
+using ProjectManagementSystem.Data.Entities;
 using ProjectManagementSystem.Errors;
 using ProjectManagementSystem.Helper;
 using ProjectManagementSystem.ViewModel;
@@ -26,9 +26,23 @@ public class RolesController : BaseController
 
         if (resultuser.IsSuccess)
         {
-            var response = await _mediator.Send(new AddRoleToUserCommand(resultuser.Data,viewModel.RoleName));
+            await _mediator.Send(new AddRoleToUserCommand(resultuser.Data,viewModel.RoleName));
             return Result.Success(true);
         }
         return Result.Failure<bool>(UserErrors.UserNotFound);
+    }
+
+
+    [HttpPost("RemoveRoleFromUser")]
+    public async Task<Result<bool>> RemoveRoleFromUser([FromBody] int userId, int roleId)
+    {
+        var result = await _mediator.Send(new RemoveRoleFromUserCommand(userId, roleId));
+
+        if (result.IsSuccess)
+        {
+            return Result.Success(true);
+        }
+        return Result.Failure<bool>(RoleErrors.RoleNotAssigned);
+
     }
 }
