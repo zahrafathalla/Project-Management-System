@@ -4,9 +4,9 @@ using ProjectManagementSystem.Data.Entities;
 
 namespace ProjectManagementSystem.CQRS.Roles.Command;
 
-public record AssignRegisterUserToDefaultRoleCommand (User user) : IRequest<bool>;
+public record AssignRegisteredUserToDefaultRoleCommand (User user) : IRequest<bool>;
 
-public class AssignRegisterUserToDefaultRoleHandler : IRequestHandler<AssignRegisterUserToDefaultRoleCommand, bool>
+public class AssignRegisterUserToDefaultRoleHandler : IRequestHandler<AssignRegisteredUserToDefaultRoleCommand, bool>
 {
     private readonly IMediator _mediator;
 
@@ -15,7 +15,7 @@ public class AssignRegisterUserToDefaultRoleHandler : IRequestHandler<AssignRegi
         _mediator = mediator;
     }
 
-    public async Task<bool> Handle(AssignRegisterUserToDefaultRoleCommand request, CancellationToken cancellationToken)
+    public async Task<bool> Handle(AssignRegisteredUserToDefaultRoleCommand request, CancellationToken cancellationToken)
     {
         await _mediator.Send(new AddRoleToUserCommand (request.user,DefaultRoles.Member));
 

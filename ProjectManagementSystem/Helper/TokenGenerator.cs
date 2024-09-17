@@ -7,16 +7,11 @@ using ProjectManagementSystem.Authontication;
 using ProjectManagementSystem.Data.Entities;
 using ProjectManagementSystem.Helper;
 
-public class TokenGenerator : ITokenGenerator
+public static class TokenGenerator 
 {
-    private readonly JwtOptions _options;
+    public static JwtOptions _options { get; set; }
 
-    public TokenGenerator(IOptions<JwtOptions> options)
-    {
-        _options = options.Value;
-    }
-
-    public string GenerateToken(User user)
+    public static string GenerateToken(User user)
     {
         Claim[] claims =
         {
@@ -27,14 +22,19 @@ public class TokenGenerator : ITokenGenerator
         var symmetricSecurityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_options.Key));
         var signingCredentials = new SigningCredentials(symmetricSecurityKey, SecurityAlgorithms.HmacSha256);
 
-        var token = new JwtSecurityToken(
-            issuer: _options.Issuer,
-            audience: _options.Audience,
-            claims: claims,
-            expires: DateTime.UtcNow.AddMinutes(_options.ExpiryMinutes),
-            signingCredentials: signingCredentials
-        );
 
-        return new JwtSecurityTokenHandler().WriteToken(token);
+        var tokenDescriptor = new SecurityTokenDescriptor
+        {
+            Issuer = _options.Issuer,
+            Audience = _options.Audience,
+            Subject = new ClaimsIdentity(claims),
+            Expires = DateTime.UtcNow.AddMinutes(_options.ExpiryMinutes),
+            SigningCredentials = signingCredentials
+        };
+
+        var tokenHandler = new JwtSecurityTokenHandler();
+        var token = tokenHandler.CreateToken(tokenDescriptor);
+
+        return tokenHandler.WriteToken(token);
     }
 }

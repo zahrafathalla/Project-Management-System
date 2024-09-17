@@ -15,6 +15,7 @@ using System.Diagnostics;
 using System.Reflection;
 using System.Text;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Options;
 
 namespace ProjectManagementSystem
 {
@@ -35,7 +36,6 @@ namespace ProjectManagementSystem
             builder.Services.AddScoped<IGenericRepository<User>, GenericRepository<User>>();
 
             builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
-            builder.Services.AddScoped<ITokenGenerator, TokenGenerator>();
 
             builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(typeof(Program).Assembly));
 
@@ -99,7 +99,9 @@ namespace ProjectManagementSystem
 
             #endregion
 
-            MapperHandler.mapper = app.Services.GetService<IMapper>();
+            MapperHandler.mapper = app.Services.GetService<IMapper>()!;
+            TokenGenerator._options = app.Services.GetService<IOptions<JwtOptions>>()!.Value;
+
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
             {

@@ -8,7 +8,6 @@ using ProjectManagementSystem.ViewModel;
 
 namespace ProjectManagementSystem.Controllers
 {
-
     public class AccountController : BaseController
     {
         private readonly IMediator _mediator;

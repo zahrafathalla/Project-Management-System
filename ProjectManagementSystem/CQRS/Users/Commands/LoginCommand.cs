@@ -14,12 +14,10 @@ namespace ProjectManagementSystem.CQRS.Users.Commands
     public class LoginHandler : IRequestHandler<LoginCommand, Result<LoginResponse>>
     {
         private readonly IMediator _mediator;
-        private readonly ITokenGenerator _tokenGenerator;
 
-        public LoginHandler(IMediator mediator, ITokenGenerator tokenGenerator)
+        public LoginHandler(IMediator mediator)
         {
             _mediator = mediator;
-            _tokenGenerator = tokenGenerator;
         }
 
         public async Task<Result<LoginResponse>> Handle(LoginCommand request, CancellationToken cancellationToken)
@@ -42,7 +40,7 @@ namespace ProjectManagementSystem.CQRS.Users.Commands
                 return Result.Failure<LoginResponse>(UserErrors.InvalidCredentials);
             }
 
-            var token = _tokenGenerator.GenerateToken(user);
+            var token = TokenGenerator.GenerateToken(user); 
             var loginResponse = new LoginResponse(user.Id,request.Email,token);
 
             return Result.Success(loginResponse);
