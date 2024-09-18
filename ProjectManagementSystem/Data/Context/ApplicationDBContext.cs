@@ -28,7 +28,7 @@ namespace ProjectManagementSystem.Data.Context
         public DbSet<Role> roles { get; set; }
         public DbSet<UserRole> UserRoles { get; set; }
         public DbSet<Project> Projects { get; set; }
-        public DbSet<TasK> TasKs { get; set; }
+        public DbSet<WorkTask> Tasks { get; set; }
         public DbSet<UserProject> UserProjects { get; set; }
     }
 }

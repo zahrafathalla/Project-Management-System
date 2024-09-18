@@ -1,8 +1,7 @@
 ﻿namespace ProjectManagementSystem.Data.Entities;
 
-public class UserProject
+public class UserProject :BaseEntity
 {
-    public int Id { get; set; }
     public bool IsCreator { get; set; } = false; 
 
     public int UserId { get; set; }

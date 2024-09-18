@@ -1,4 +1,6 @@
-﻿namespace ProjectManagementSystem.Data.Entities
+﻿using ProjectManagementSystem.Data.Entities.Enums;
+
+namespace ProjectManagementSystem.Data.Entities
 {
     public class User: BaseEntity
     {
@@ -8,6 +10,7 @@
         public bool IsEmailVerified { get; set; } =false;
         public string PhoneNumber { get; set; }
         public string Country { get; set; }
+        public UserStatus Status { get; set; }
         public string? VerificationToken { get; set; }
         public string? PasswordResetCode { get; set; }
         public ICollection<UserRole> UserRoles { get; set; }

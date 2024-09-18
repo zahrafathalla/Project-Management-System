@@ -22,11 +22,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Data\Configurations\" />
+    <Folder Include="CQRS\Projects\Query\" />
     <Folder Include="Data\Migrations\" />
     <Folder Include="Extensions\" />
     <Folder Include="MiddleWare\" />
-    <Folder Include="Repository\Specification\" />
   </ItemGroup>
 
 </Project>

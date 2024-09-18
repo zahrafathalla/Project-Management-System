@@ -1,12 +1,11 @@
-﻿using ProjectManagementSystem.Enum;
+﻿using ProjectManagementSystem.Data.Entities.Enums;
 
 namespace ProjectManagementSystem.Data.Entities;
 
-public class TasK
+public class WorkTask : BaseEntity
 {
-    public int Id { get; set; }
     public string Title { get; set; }
-    public TasKStatus Status { get; set; } = TasKStatus.ToDo;
+    public WorkTaskStatus Status { get; set; } = WorkTaskStatus.ToDo;
     public DateTime DateCreated { get; set; }
 
     public int ProjectId { get; set; }
