@@ -3,12 +3,10 @@ using ProjectManagementSystem.Data.Entities;
 using ProjectManagementSystem.Repository.Interface;
 using System.Collections;
 
-
 namespace ProjectManagementSystem.Repository.Repository
 {
     public class UnitOfWork : IUnitOfWork
     {
-
         private Hashtable _repository;
         private readonly ApplicationDBContext _dBContext;
 
@@ -29,7 +27,7 @@ namespace ProjectManagementSystem.Repository.Repository
                 _repository.Add(key, value);
             }
 
-            return _repository[key] as IGenericRepository<T>;
+            return (_repository[key] as IGenericRepository<T>)!;
         }
 
         public async Task<int> SaveChangesAsync()
@@ -40,6 +38,5 @@ namespace ProjectManagementSystem.Repository.Repository
         {
             _dBContext.Dispose();
         }
-
     }
 }

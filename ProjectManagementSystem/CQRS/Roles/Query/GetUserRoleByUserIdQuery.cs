@@ -21,7 +21,7 @@ public class GetUserRoleByUserIdQueryHandler : IRequestHandler<GetUserRoleByUser
     public async Task<Result<UserRole>> Handle(GetUserRoleByUserIdQuery request, CancellationToken cancellationToken)
     {
         var UserRoles = (await _unitOfWork.Repository<UserRole>()
-           .GetAsync(ur => ur.UserId == request.UserId && ur.RoleId == request.RoleId)).FirstOrDefault();
+           .GetAsync(ur => ur.UserId == request.UserId && ur.RoleId == request.RoleId && !ur.IsDeleted)).FirstOrDefault();
 
         if (UserRoles == null)
         {

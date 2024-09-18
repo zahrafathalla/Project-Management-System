@@ -1,4 +1,3 @@
-
 using AutoMapper;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
@@ -16,6 +15,7 @@ using System.Reflection;
 using System.Text;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;
+using ProjectManagementSystem.Extensions;
 
 namespace ProjectManagementSystem
 {
@@ -25,69 +25,23 @@ namespace ProjectManagementSystem
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            builder.Services.AddControllers();
+            builder.Services.AddDependencies(builder.Configuration);
 
-            builder.Services.AddEndpointsApiExplorer();
-            builder.Services.AddSwaggerGen();
-
-            builder.Services.AddScoped(typeof(GenericRepository<>));
-            builder.Services.AddScoped<IGenericRepository<User>, GenericRepository<User>>();
-
-            builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
-
-            builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(typeof(Program).Assembly));
-
-            builder.Services.AddOptions<JwtOptions>()
-           .BindConfiguration(JwtOptions.SectionName)
-           .ValidateDataAnnotations()
-           .ValidateOnStart();
-
-            var jwtSettings =  builder.Configuration.GetSection(JwtOptions.SectionName).Get<JwtOptions>();
-
-            builder.Services.AddAuthentication(opts =>
-            {
-                opts.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                opts.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-            })
-              .AddJwtBearer(options =>
-              {
-                  options.SaveToken=true;
-                  options.TokenValidationParameters = new TokenValidationParameters
-                  {
-                      ValidateIssuer = true,
-                      ValidateAudience = true,
-                      ValidateLifetime = true,
-                      ValidateIssuerSigningKey = true,
-                      ValidIssuer = jwtSettings?.Issuer,
-                      ValidAudience = jwtSettings?.Audience, 
-                      IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings?.Key!))
-                  };
-              });
-
-
-            builder.Services.AddDbContext<ApplicationDBContext>(options =>
-            {
-                options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))
-                .LogTo(log => Debug.WriteLine(log), LogLevel.Information)
-                .EnableSensitiveDataLogging(); ;
-            });
-
-            builder.Services.AddAutoMapper(typeof(MappingProfile));
             var app = builder.Build();
 
             #region Update-Database
 
-            using var scope = app.Services.CreateScope(); // Group of services lifetime scopped
-            var services = scope.ServiceProvider; // Services It Self
+            using var scope = app.Services.CreateScope(); 
+            var services = scope.ServiceProvider;
 
             var LoggerFactory = services.GetRequiredService<ILoggerFactory>();
 
             try
             {
-                var dbcontext = services.GetRequiredService<ApplicationDBContext>(); // Ask CLR for creating object from DBcontext Explicitly  == allow DI For DBcontext (StoreContext)
+                var dbcontext = services.GetRequiredService<ApplicationDBContext>(); 
                 await dbcontext.Database.MigrateAsync();
 
-                await StoreContextseed.seedAsync(dbcontext); // Data seeding
+                await StoreContextseed.seedAsync(dbcontext); 
             }
             catch (Exception ex)
             {
