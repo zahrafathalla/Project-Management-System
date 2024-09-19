@@ -3,17 +3,17 @@
 public class RoleErrors
 {
     public static readonly Error RoleNotFound =
-        new("Role.RoleNotFound", "Role is not found", StatusCodes.Status404NotFound);
+        new( "Role is not found", StatusCodes.Status404NotFound);
 
     public static readonly Error DuplicatedRole =
-        new("Role.DuplicatedRole", "Another role with the same name is already exists", StatusCodes.Status409Conflict);
+        new( "Another role with the same name is already exists", StatusCodes.Status409Conflict);
 
     public static readonly Error RoleAlreadyExists =
-        new("Role.RoleAlreadyExists", "Role Already Exists", StatusCodes.Status409Conflict);
+        new( "Role Already Exists", StatusCodes.Status409Conflict);
     
     public static readonly Error UserNotAssignedToThatRole =
-        new("Role.UserNotAssignedToThatRole", "UserNotAssignedToThatRole", StatusCodes.Status400BadRequest);
+        new( "UserNotAssignedToThatRole", StatusCodes.Status400BadRequest);
 
     public static readonly Error RoleNotAssigned =
-       new("Role.RoleNotAssigned", "Role Not Assigned", StatusCodes.Status400BadRequest);
+       new( "Role Not Assigned", StatusCodes.Status400BadRequest);
 }

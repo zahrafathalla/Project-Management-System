@@ -23,18 +23,30 @@ namespace ProjectManagementSystem.Controllers
         }
 
         [HttpGet("view-project/{projectId}")]
-        public async Task<Result<Project>> GetProjectById(int projectId)
+        public async Task<Result<ProjectToReturnDto>> GetProjectById(int projectId)
         {
             var result = await _mediator.Send(new GetProjectByIdQuery(projectId));
+            if (!result.IsSuccess)
+            {
+                return Result.Failure<ProjectToReturnDto>(result.Error);
+            }
+            var projectToReturnDto = result.Data.Map<ProjectToReturnDto>();
 
-            return result; // should return Dto instead of project. Waiting for al- Zahra's approval on the DTO format
+            return Result.Success(projectToReturnDto);
         }
 
         [HttpGet("List-Projects")]
-        public async Task<Result<List<projectToReturnDto>>> GetAllProjects(string? SearchTerm, [FromQuery] int skip = 0 , [FromQuery] int take = 10 )
+        public async Task<Result<List<ProjectToReturnDto>>> GetAllProjects(string? SearchTerm, [FromQuery] int skip = 0, [FromQuery] int take = 10)
         {
             var result = await _mediator.Send(new GetAllProjectsQuery(skip, take, SearchTerm));
-            return result;
+            if (!result.IsSuccess)
+            {
+                return Result.Failure<List<ProjectToReturnDto>>(result.Error);
+            }
+            var projectToReturnDto = result.Data.Map<List<ProjectToReturnDto>>();
+
+            return Result.Success(projectToReturnDto);
+
         }
 
 

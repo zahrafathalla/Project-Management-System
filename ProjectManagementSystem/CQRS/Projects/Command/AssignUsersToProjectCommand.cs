@@ -15,10 +15,12 @@ namespace ProjectManagementSystem.CQRS.Projects.Command
     public class AssignUsersToProjectCommandHandler : IRequestHandler<AssignUsersToProjectCommand, Result>
     {
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IMediator _mediator;
 
-        public AssignUsersToProjectCommandHandler(IUnitOfWork unitOfWork)
+        public AssignUsersToProjectCommandHandler(IUnitOfWork unitOfWork,IMediator mediator)
         {
             _unitOfWork = unitOfWork;
+            _mediator = mediator;
         }
 
         public async Task<Result> Handle(AssignUsersToProjectCommand request, CancellationToken cancellationToken)

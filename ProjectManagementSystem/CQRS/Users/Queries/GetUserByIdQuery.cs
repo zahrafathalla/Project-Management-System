@@ -8,9 +8,9 @@ using ProjectManagementSystem.Repository.Interface;
 
 namespace ProjectManagementSystem.CQRS.Users.Queries;
 
-public record GetUserByIdQuery(int UserId) : IRequest<Result<UserResponse>>;
+public record GetUserByIdQuery(int UserId) : IRequest<Result<User>>;
 
-public class GetUserByIdQueryHandler : IRequestHandler<GetUserByIdQuery, Result<UserResponse>>
+public class GetUserByIdQueryHandler : IRequestHandler<GetUserByIdQuery, Result<User>>
 {
     private readonly IUnitOfWork _unitOfWork;
 
@@ -19,17 +19,15 @@ public class GetUserByIdQueryHandler : IRequestHandler<GetUserByIdQuery, Result<
         _unitOfWork = unitOfWork;
     }
 
-    public async Task<Result<UserResponse>> Handle(GetUserByIdQuery request, CancellationToken cancellationToken)
+    public async Task<Result<User>> Handle(GetUserByIdQuery request, CancellationToken cancellationToken)
     {
         var user = (await _unitOfWork.Repository<User>().GetAsync(u => u.Id == request.UserId && !u.IsDeleted)).FirstOrDefault();
 
         if (user == null)
         {
-            return Result.Failure<UserResponse>(UserErrors.UserNotFound);
+            return Result.Failure<User>(UserErrors.UserNotFound);
         }
 
-        var userResponse = user.Map<UserResponse>();
-
-        return Result.Success(userResponse);
+        return Result.Success(user);
     }
 }

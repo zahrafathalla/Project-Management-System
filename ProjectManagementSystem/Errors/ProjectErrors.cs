@@ -5,14 +5,15 @@ namespace ProjectManagementSystem.Errors
     public class ProjectErrors
     {
         public static readonly Error ProjectCreationFailed =
-          new("Project.ProjectCreationFailed", "Project Creation Failed", StatusCodes.Status400BadRequest);
+          new( "Project Creation Failed", StatusCodes.Status400BadRequest);
 
         public static readonly Error UserAssignmentFailed =
-          new("Project.UserAssignmentFailed", "User Assignment Failed", StatusCodes.Status400BadRequest);
+          new( "User Assignment Failed", StatusCodes.Status400BadRequest);
         
         public static readonly Error ProjectNotFound =
-          new ("Project.ProjectNotFound", "Project Not Found", StatusCodes.Status404NotFound);
+          new ( "Project Not Found", StatusCodes.Status404NotFound);
 
-
+        public static readonly Error UserIsNotAssignedToThisProject=
+         new( "User is not assigned to this project", StatusCodes.Status404NotFound);
     }
 }

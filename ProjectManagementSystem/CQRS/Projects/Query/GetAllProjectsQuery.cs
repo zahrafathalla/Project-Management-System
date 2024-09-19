@@ -6,9 +6,9 @@ using ProjectManagementSystem.Repository.Interface;
 namespace ProjectManagementSystem.CQRS.Projects.Query;
 
 
-public record projectToReturnDto(string title, string status, int numberofUsers, int numoftasks, DateTime Datecreated);
+public record ProjectToReturnDto(string title, string status, int numberofUsers, int numoftasks, DateTime Datecreated);
 
-public class GetAllProjectsQuery : IRequest<Result<List<projectToReturnDto>>>
+public class GetAllProjectsQuery : IRequest<Result<List<ProjectToReturnDto>>>
 {
     public int Skip { get; set; }
     public int Take { get; set; }
@@ -21,7 +21,7 @@ public class GetAllProjectsQuery : IRequest<Result<List<projectToReturnDto>>>
         SearchTerm = searchTerm;
     }
 }
-public class GetAllProjectsQueryHandler : IRequestHandler<GetAllProjectsQuery, Result<List<projectToReturnDto>>>
+public class GetAllProjectsQueryHandler : IRequestHandler<GetAllProjectsQuery, Result<List<ProjectToReturnDto>>>
 {
     private readonly IProjectRepository _projectRepository;
 
@@ -30,12 +30,12 @@ public class GetAllProjectsQueryHandler : IRequestHandler<GetAllProjectsQuery, R
         _projectRepository = projectRepository;
     }
 
-    public async Task<Result<List<projectToReturnDto>>> Handle(GetAllProjectsQuery request, CancellationToken cancellationToken)
+    public async Task<Result<List<ProjectToReturnDto>>> Handle(GetAllProjectsQuery request, CancellationToken cancellationToken)
     {
         var projects = await _projectRepository.GetAllAsync(request.Skip, request.Take,request.SearchTerm);
 
         var projectToReturnDto = projects.Select(p =>
-                                                    new projectToReturnDto(p.Title,
+                                                    new ProjectToReturnDto(p.Title,
                                                                            p.Status.ToString(),
                                                                            p.UserProjects.Count(),
                                                                            p.Tasks.Count(),
