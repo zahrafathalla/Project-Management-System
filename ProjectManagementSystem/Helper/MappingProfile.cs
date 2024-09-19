@@ -4,6 +4,8 @@ using ProjectManagementSystem.CQRS.Projects.Command.Orchestrator;
 using ProjectManagementSystem.CQRS.Roles.Command;
 using ProjectManagementSystem.CQRS.Users.Commands;
 using ProjectManagementSystem.CQRS.Users.Commands.Orchestrators;
+using ProjectManagementSystem.CQRS.Users.Queries;
+using ProjectManagementSystem.CQRS.Users.Response;
 using ProjectManagementSystem.Data.Entities;
 using ProjectManagementSystem.Data.Entities.Enums;
 using ProjectManagementSystem.ViewModel;
@@ -16,6 +18,7 @@ namespace ProjectManagementSystem.Helper
         {
             CreateMap<CreateAccountCommand, User>();
             CreateMap<User, LoginResponse>();
+            CreateMap<User, UserResponse>();
 
             CreateMap<LoginViewModel, LoginCommand>();
             CreateMap<ChangePasswordViewModel, ChangePasswordCommand>();

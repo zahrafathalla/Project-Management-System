@@ -18,21 +18,21 @@ namespace ProjectManagementSystem.Repository.Repository
 
         public async Task<IEnumerable<T>> GetAllWithSpecAsync(ISpecification<T> Spec)
         {
-            return await ApplySpecification(Spec).Where(x => x.IsDeleted == false).ToListAsync();
+            return await ApplySpecification(Spec).Where(x => !x.IsDeleted).ToListAsync();
         }
 
         public async Task<T?> GetByIdWithSpecAsync(ISpecification<T> Spec)
         {
-            return await ApplySpecification(Spec).Where(x => x.IsDeleted == false).FirstOrDefaultAsync();
+            return await ApplySpecification(Spec).Where(x => !x.IsDeleted).FirstOrDefaultAsync();
         }
 
         public async Task<int> GetCountWithSpecAsync(ISpecification<T> Spec)
         {
-            return await ApplySpecification(Spec).Where(x => x.IsDeleted == false).CountAsync();
+            return await ApplySpecification(Spec).Where(x => !x.IsDeleted).CountAsync();
         }
         public async Task<IEnumerable<T>> GetAllAsync()
         {
-            return await _dBContext.Set<T>().Where(x => x.IsDeleted == false).ToListAsync();
+            return await _dBContext.Set<T>().Where(x => !x.IsDeleted).ToListAsync();
         }
         public async Task<IEnumerable<T>> GetAllAsync(int skip = 0, int take = 10)
         {

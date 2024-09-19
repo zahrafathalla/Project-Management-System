@@ -31,10 +31,10 @@ namespace ProjectManagementSystem.Controllers
         }
 
         [HttpGet("List-Projects")]
-        public async Task<ActionResult<List<projectToReturnDto>>> GetAllProjects(string? SearchTerm, [FromQuery] int skip = 0 , [FromQuery] int take = 10 )
+        public async Task<Result<List<projectToReturnDto>>> GetAllProjects(string? SearchTerm, [FromQuery] int skip = 0 , [FromQuery] int take = 10 )
         {
-            var projects = await _mediator.Send(new GetAllProjectsQuery(skip, take, SearchTerm));
-            return Ok(projects);
+            var result = await _mediator.Send(new GetAllProjectsQuery(skip, take, SearchTerm));
+            return result;
         }
 
 

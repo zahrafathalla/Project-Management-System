@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using ProjectManagementSystem.Abstractions;
 using ProjectManagementSystem.Data.Entities;
 using ProjectManagementSystem.Repository.Interface;
 
@@ -7,7 +8,7 @@ namespace ProjectManagementSystem.CQRS.Projects.Query;
 
 public record projectToReturnDto(string title, string status, int numberofUsers, int numoftasks, DateTime Datecreated);
 
-public class GetAllProjectsQuery : IRequest<List<projectToReturnDto>>
+public class GetAllProjectsQuery : IRequest<Result<List<projectToReturnDto>>>
 {
     public int Skip { get; set; }
     public int Take { get; set; }
@@ -20,7 +21,7 @@ public class GetAllProjectsQuery : IRequest<List<projectToReturnDto>>
         SearchTerm = searchTerm;
     }
 }
-public class GetAllProjectsQueryHandler : IRequestHandler<GetAllProjectsQuery, List<projectToReturnDto>>
+public class GetAllProjectsQueryHandler : IRequestHandler<GetAllProjectsQuery, Result<List<projectToReturnDto>>>
 {
     private readonly IProjectRepository _projectRepository;
 
@@ -29,7 +30,7 @@ public class GetAllProjectsQueryHandler : IRequestHandler<GetAllProjectsQuery, L
         _projectRepository = projectRepository;
     }
 
-    public async Task<List<projectToReturnDto>> Handle(GetAllProjectsQuery request, CancellationToken cancellationToken)
+    public async Task<Result<List<projectToReturnDto>>> Handle(GetAllProjectsQuery request, CancellationToken cancellationToken)
     {
         var projects = await _projectRepository.GetAllAsync(request.Skip, request.Take,request.SearchTerm);
 
@@ -41,7 +42,7 @@ public class GetAllProjectsQueryHandler : IRequestHandler<GetAllProjectsQuery, L
                                                                            p.DateCreated)
                                                     ).ToList();
 
-        return projectToReturnDto;
+        return Result.Success(projectToReturnDto);
     }
 
 }
