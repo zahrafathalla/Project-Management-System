@@ -30,8 +30,11 @@ namespace ProjectManagementSystem.Helper
             CreateMap<CreateAccountViewModel, CreateAccountOrchestrator>();
 
             CreateMap<AddProjectCommand, Project>()
-                 .ForMember(dest => dest.DateCreated, opt => opt.MapFrom(src => DateTime.UtcNow))
-                .ForMember(dest => dest.Status, opt => opt.MapFrom(src => ProjectStatus.Public));
+                 .ForMember(dest => dest.DateCreated, opt => opt.MapFrom(src => DateTime.UtcNow));
+
+            CreateMap<UpdateProjectCommand, Project>();
+            CreateMap<UpdateProjectViewModel, UpdateProjectCommand>();
+            CreateMap<DeleteProjectViewModel, DeleteProjectCommand>();
 
             CreateMap<AddProjectViewModel, AddProjectOrchestrator>();
         }

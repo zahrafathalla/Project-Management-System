@@ -47,7 +47,6 @@ namespace ProjectManagementSystem.CQRS.Projects.Command
 
             await _unitOfWork.SaveChangesAsync();
 
-
             return Result.Success();
         }
     }

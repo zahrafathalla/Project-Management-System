@@ -42,6 +42,7 @@ namespace ProjectManagementSystem.CQRS.Projects.Command.Orchestrator
             var assignUsersCommand = new AssignUsersToProjectCommand
             {
                 ProjectId = projectId,
+                CreatorUserId = request.CreatedByUserId,
                 UserIds = request.UserIds
             };
 

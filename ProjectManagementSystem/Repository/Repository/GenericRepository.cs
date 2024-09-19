@@ -34,6 +34,13 @@ namespace ProjectManagementSystem.Repository.Repository
         {
             return await _dBContext.Set<T>().Where(x => x.IsDeleted == false).ToListAsync();
         }
+        public async Task<IEnumerable<T>> GetAllAsync(int skip = 0, int take = 10)
+        {
+            return await _dBContext.Set<T>().Where(x => !x.IsDeleted)
+                                   .Skip(skip)
+                                   .Take(take)
+                                   .ToListAsync();
+        }
 
         public async Task<IEnumerable<T>> GetAsync(Expression<Func<T, bool>> expression)
         {
@@ -62,6 +69,12 @@ namespace ProjectManagementSystem.Repository.Repository
         {
             entity.IsDeleted = true;
             Update(entity);
+        }
+
+        public void DeleteById(int id)
+        {
+            T entity = _dBContext.Find<T>(id)!;
+            Delete(entity);
         }
 
         private IQueryable<T> ApplySpecification(ISpecification<T> Spec)

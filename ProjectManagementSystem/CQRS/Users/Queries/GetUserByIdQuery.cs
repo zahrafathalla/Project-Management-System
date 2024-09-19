@@ -19,7 +19,7 @@ public class GetUserByIdQueryHandler : IRequestHandler<GetUserByIdQuery, Result<
 
     public async Task<Result<User>> Handle(GetUserByIdQuery request, CancellationToken cancellationToken)
     {
-        var user = (await _unitOfWork.Repository<User>().GetAsync(u => u.Id == request.UserId)).FirstOrDefault();
+        var user = (await _unitOfWork.Repository<User>().GetAsync(u => u.Id == request.UserId && !u.IsDeleted)).FirstOrDefault();
         if (user == null)
         {
             return Result.Failure<User>(UserErrors.UserNotFound);

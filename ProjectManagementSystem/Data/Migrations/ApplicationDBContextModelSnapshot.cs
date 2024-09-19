@@ -55,7 +55,7 @@ namespace ProjectManagementSystem.Data.Migrations
 
                     b.HasIndex("CreatedByUserId");
 
-                    b.ToTable("Projects");
+                    b.ToTable("Projects", (string)null);
                 });
 
             modelBuilder.Entity("ProjectManagementSystem.Data.Entities.Role", b =>
@@ -78,7 +78,7 @@ namespace ProjectManagementSystem.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("roles");
+                    b.ToTable("roles", (string)null);
                 });
 
             modelBuilder.Entity("ProjectManagementSystem.Data.Entities.User", b =>
@@ -127,7 +127,7 @@ namespace ProjectManagementSystem.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("users");
+                    b.ToTable("users", (string)null);
                 });
 
             modelBuilder.Entity("ProjectManagementSystem.Data.Entities.UserProject", b =>
@@ -156,7 +156,7 @@ namespace ProjectManagementSystem.Data.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("UserProjects");
+                    b.ToTable("UserProjects", (string)null);
                 });
 
             modelBuilder.Entity("ProjectManagementSystem.Data.Entities.UserRole", b =>
@@ -182,7 +182,7 @@ namespace ProjectManagementSystem.Data.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("UserRoles");
+                    b.ToTable("UserRoles", (string)null);
                 });
 
             modelBuilder.Entity("ProjectManagementSystem.Data.Entities.WorkTask", b =>
@@ -219,7 +219,7 @@ namespace ProjectManagementSystem.Data.Migrations
 
                     b.HasIndex("ProjectId");
 
-                    b.ToTable("Tasks");
+                    b.ToTable("Tasks", (string)null);
                 });
 
             modelBuilder.Entity("ProjectManagementSystem.Data.Entities.Project", b =>

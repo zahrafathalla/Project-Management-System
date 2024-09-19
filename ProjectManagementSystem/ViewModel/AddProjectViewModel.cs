@@ -7,14 +7,14 @@ namespace ProjectManagementSystem.ViewModel
     {
         [Required]
         public string Title { get; set; }
-        [Required]
 
+        [Required]
         public string Description { get; set; }
-        [Required]
 
+        [Required]
         public int CreatedByUserId { get; set; }
-        [Required]
 
+        [Required]
         public List<int> UserIds { get; set; } = new List<int>();
     }
 }

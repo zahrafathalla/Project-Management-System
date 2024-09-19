@@ -22,7 +22,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="CQRS\Projects\Query\" />
     <Folder Include="Data\Migrations\" />
     <Folder Include="MiddleWare\" />
   </ItemGroup>

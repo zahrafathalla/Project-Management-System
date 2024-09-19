@@ -13,6 +13,7 @@ namespace ProjectManagementSystem.Data.Entities
         public UserStatus Status { get; set; }
         public string? VerificationToken { get; set; }
         public string? PasswordResetCode { get; set; }
-        public ICollection<UserRole> UserRoles { get; set; }
+        public ICollection<UserRole> UserRoles { get; set; } = new HashSet<UserRole>();
+        public ICollection<UserProject> UserProjects { get; set; } = new HashSet<UserProject>();
     }
 }
