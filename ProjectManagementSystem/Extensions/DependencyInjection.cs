@@ -1,9 +1,12 @@
 ﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
 using ProjectManagementSystem.Authontication;
 using ProjectManagementSystem.Data.Context;
 using ProjectManagementSystem.Data.Entities;
+using ProjectManagementSystem.Data.Entities.Enums;
+using ProjectManagementSystem.DTO;
 using ProjectManagementSystem.Helper;
 using ProjectManagementSystem.Repository.Interface;
 using ProjectManagementSystem.Repository.Repository;
@@ -21,6 +24,7 @@ public static class DependencyInjection
         services.AddAuthConfig(configuration);
         services.AddMediatRServices();
         services.AddMapperConfig();
+        services.AddHttpContextAccessor();
 
         services.AddDbContext<ApplicationDBContext>(options =>
         {
@@ -31,6 +35,7 @@ public static class DependencyInjection
 
         services.AddScoped<IUnitOfWork, UnitOfWork>();
         services.AddScoped<IProjectRepository, ProjectRepository>();
+        services.AddScoped<UserState>();
 
         return services;
     }
@@ -38,7 +43,37 @@ public static class DependencyInjection
     private static IServiceCollection AddSwaggerServices(this IServiceCollection services)
     {
         services.AddEndpointsApiExplorer();
-        services.AddSwaggerGen();
+        services.AddSwaggerGen(c =>
+        {
+            c.SwaggerDoc("v1", new OpenApiInfo { Title = "Project-Management-System-API", Version = "v1" });
+
+            c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+            {
+                Description = "JWT Authorization header using the Bearer scheme. \r\n\r\n Enter 'Bearer' [space] and then your token in the text input below.\r\n\r\nExample: \"Bearer abcdefghijklmnopqrstuvwxyz\"",
+                Name = "Authorization",
+                In = ParameterLocation.Header,
+                Type = SecuritySchemeType.ApiKey,
+                Scheme = "Bearer"
+            });
+
+            c.AddSecurityRequirement(new OpenApiSecurityRequirement()
+            {
+                {
+                    new OpenApiSecurityScheme
+                    {
+                        Reference = new OpenApiReference
+                        {
+                            Type = ReferenceType.SecurityScheme,
+                            Id = "Bearer"
+                        },
+                        Scheme = "oauth2",
+                        Name = "Bearer",
+                        In = ParameterLocation.Header,
+                    },
+                    new List<string>()
+                }
+            });
+        });
 
         return services;
     }

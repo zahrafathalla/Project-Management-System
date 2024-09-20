@@ -16,6 +16,7 @@ using System.Text;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;
 using ProjectManagementSystem.Extensions;
+using Microsoft.OpenApi.Models;
 
 namespace ProjectManagementSystem
 {
@@ -31,17 +32,17 @@ namespace ProjectManagementSystem
 
             #region Update-Database
 
-            using var scope = app.Services.CreateScope(); 
+            using var scope = app.Services.CreateScope();
             var services = scope.ServiceProvider;
 
             var LoggerFactory = services.GetRequiredService<ILoggerFactory>();
 
             try
             {
-                var dbcontext = services.GetRequiredService<ApplicationDBContext>(); 
+                var dbcontext = services.GetRequiredService<ApplicationDBContext>();
                 await dbcontext.Database.MigrateAsync();
 
-                await StoreContextseed.seedAsync(dbcontext); 
+                await StoreContextseed.seedAsync(dbcontext);
             }
             catch (Exception ex)
             {
@@ -57,7 +58,7 @@ namespace ProjectManagementSystem
             if (app.Environment.IsDevelopment())
             {
                 app.UseSwagger();
-                app.UseSwaggerUI();
+                app.UseSwaggerUI(); 
             }
             app.UseHttpsRedirection();
 

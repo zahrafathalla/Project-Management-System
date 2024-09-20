@@ -7,17 +7,19 @@ using ProjectManagementSystem.Authontication;
 using ProjectManagementSystem.Data.Entities;
 using ProjectManagementSystem.Helper;
 
-public static class TokenGenerator 
+public static class TokenGenerator
 {
     public static JwtOptions options { get; set; } = null!;
 
     public static string GenerateToken(User user)
     {
-        Claim[] claims =
+        var claims = new ClaimsIdentity(new Claim[]
         {
+            new Claim("UserId", user.Id.ToString()),
+            new Claim(ClaimTypes.Name, user.UserName),
             new Claim(JwtRegisteredClaimNames.Email, user.Email),
             new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
-        };
+        });
 
         var symmetricSecurityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(options.Key));
         var signingCredentials = new SigningCredentials(symmetricSecurityKey, SecurityAlgorithms.HmacSha256);

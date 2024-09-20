@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using ProjectManagementSystem.Abstractions;
@@ -6,9 +7,11 @@ using ProjectManagementSystem.CQRS.Projects.Command;
 using ProjectManagementSystem.CQRS.Projects.Command.Orchestrator;
 using ProjectManagementSystem.CQRS.Projects.Query;
 using ProjectManagementSystem.Data.Entities;
+using ProjectManagementSystem.DTO;
 using ProjectManagementSystem.Errors;
 using ProjectManagementSystem.Helper;
 using ProjectManagementSystem.ViewModel;
+using System.Security.Claims;
 
 namespace ProjectManagementSystem.Controllers
 {
@@ -16,10 +19,12 @@ namespace ProjectManagementSystem.Controllers
     public class ProjectController : BaseController
     {
         private readonly IMediator _mediator;
+        private readonly UserState _userState;
 
-        public ProjectController(IMediator mediator)
+        public ProjectController(IMediator mediator, UserState userState)
         {
             _mediator = mediator;
+            _userState = userState;
         }
 
         [HttpGet("view-project/{projectId}")]
@@ -46,14 +51,15 @@ namespace ProjectManagementSystem.Controllers
             var projectToReturnDto = result.Data.Map<List<ProjectToReturnDto>>();
 
             return Result.Success(projectToReturnDto);
-
         }
 
-
         [HttpPost("create-project")]
+        [Authorize]
         public async Task<Result<int>> CreateProject([FromBody] AddProjectViewModel viewModel)
         {
+            var userId = int.Parse(User.FindFirst("UserId")!.Value);
             var command = viewModel.Map<AddProjectOrchestrator>();
+            command.CreatedByUserId = userId;
             var result = await _mediator.Send(command);
 
             return result;
