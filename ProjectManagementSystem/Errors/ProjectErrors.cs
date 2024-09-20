@@ -12,5 +12,9 @@ namespace ProjectManagementSystem.Errors
 
         public static readonly Error UserIsNotAssignedToThisProject=
          new( "User is not assigned to this project", StatusCodes.Status404NotFound);
+
+        public static readonly Error FailedToAssignUsersToTheProject =
+         new("Failed to assign users to the project", StatusCodes.Status400BadRequest);
+
     }
 }

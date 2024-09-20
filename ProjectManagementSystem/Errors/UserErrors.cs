@@ -12,13 +12,13 @@ public class UserErrors
        new("User Not Found", StatusCodes.Status404NotFound);
 
     public static readonly Error InvalidCurrentPassword =
-        new Error("Current password is incorrect.", StatusCodes.Status400BadRequest);
+        new ("Current password is incorrect.", StatusCodes.Status400BadRequest);
 
     public static readonly Error UserNotVerified =
-       new Error("user is not verified", StatusCodes.Status400BadRequest);
+       new ("user is not verified", StatusCodes.Status400BadRequest);
 
     public static readonly Error InvalidResetCode =
-     new Error("Invalid reset code", StatusCodes.Status400BadRequest);
+     new ("Invalid reset code", StatusCodes.Status400BadRequest);
 
     public static readonly Error UserAlreadyExists =
     new("User Already Exists", StatusCodes.Status409Conflict);
