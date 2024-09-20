@@ -6,7 +6,7 @@ public class UserErrors
        new("Invalid email/password", StatusCodes.Status401Unauthorized);
 
     public static readonly Error InvalidEmail =
-       new("Invalid email/password", StatusCodes.Status404NotFound);
+       new("Invalid email", StatusCodes.Status404NotFound);
 
     public static readonly Error UserNotFound =
        new("User Not Found", StatusCodes.Status404NotFound);

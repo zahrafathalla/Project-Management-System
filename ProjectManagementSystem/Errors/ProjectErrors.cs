@@ -6,9 +6,6 @@ namespace ProjectManagementSystem.Errors
     {
         public static readonly Error ProjectCreationFailed =
           new( "Project Creation Failed", StatusCodes.Status400BadRequest);
-
-        public static readonly Error UserAssignmentFailed =
-          new( "User Assignment Failed", StatusCodes.Status400BadRequest);
         
         public static readonly Error ProjectNotFound =
           new ( "Project Not Found", StatusCodes.Status404NotFound);
