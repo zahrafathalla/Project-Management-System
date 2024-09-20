@@ -49,12 +49,12 @@ namespace ProjectManagementSystem.Helper
             CreateMap<UpdateProjectViewModel, UpdateProjectCommand>();
             CreateMap<DeleteProjectViewModel, DeleteProjectCommand>();
 
-            CreateMap<AddProjectViewModel, AddProjectOrchestrator>();
+           // CreateMap<AddProjectViewModel, AddProjectOrchestrator>();
 
             CreateMap<Project, ProjectToReturnDto>()
            .ForMember(dest => dest.NumUsers, opt => opt
                                                 .MapFrom(src => src.UserProjects.Select(us=> us.User)
-                                                .Count(u=>u.Status == UserStatus.Active)))
+                                                .Count()/*u=>u.Status == UserStatus.Active*/))
            .ForMember(dest => dest.NumTasks, opt => opt.MapFrom(src => src.Tasks.Count()));
         }
     }
