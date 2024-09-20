@@ -50,7 +50,8 @@ namespace ProjectManagementSystem.Controllers
                 return Result.Failure<Pagination<ProjectToReturnDto>>(result.Error);
             }
 
-            var paginationResult = new Pagination<ProjectToReturnDto>(spec.PageSize, spec.PageIndex, result.Data);
+            var projectCount = await _mediator.Send(new GetProjectCountQuery(spec));
+            var paginationResult = new Pagination<ProjectToReturnDto>(spec.PageSize, spec.PageIndex, projectCount.Data , result.Data);
             return Result.Success(paginationResult);
         }
 
