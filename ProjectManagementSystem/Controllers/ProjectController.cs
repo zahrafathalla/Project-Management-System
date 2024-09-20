@@ -10,6 +10,7 @@ using ProjectManagementSystem.Data.Entities;
 using ProjectManagementSystem.DTO;
 using ProjectManagementSystem.Errors;
 using ProjectManagementSystem.Helper;
+using ProjectManagementSystem.Repository.Specification;
 using ProjectManagementSystem.ViewModel;
 using System.Security.Claims;
 
@@ -41,16 +42,16 @@ namespace ProjectManagementSystem.Controllers
         }
 
         [HttpGet("List-Projects")]
-        public async Task<Result<List<ProjectToReturnDto>>> GetAllProjects(string? SearchTerm, [FromQuery] int skip = 0, [FromQuery] int take = 10)
+        public async Task<Result<Pagination<ProjectToReturnDto>>> GetAllProjects([FromQuery] SpecParams spec)
         {
-            var result = await _mediator.Send(new GetAllProjectsQuery(skip, take, SearchTerm));
+            var result = await _mediator.Send(new GetProjectsQuery(spec));
             if (!result.IsSuccess)
             {
-                return Result.Failure<List<ProjectToReturnDto>>(result.Error);
+                return Result.Failure<Pagination<ProjectToReturnDto>>(result.Error);
             }
-            var projectToReturnDto = result.Data.Map<List<ProjectToReturnDto>>();
 
-            return Result.Success(projectToReturnDto);
+            var paginationResult = new Pagination<ProjectToReturnDto>(spec.PageSize, spec.PageIndex, result.Data);
+            return Result.Success(paginationResult);
         }
 
         [HttpPost("create-project")]

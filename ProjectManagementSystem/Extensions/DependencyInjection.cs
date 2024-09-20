@@ -30,7 +30,7 @@ public static class DependencyInjection
         {
             options.UseSqlServer(configuration.GetConnectionString("DefaultConnection"))
             .LogTo(log => Debug.WriteLine(log), LogLevel.Information)
-            .EnableSensitiveDataLogging(); ;
+            .EnableSensitiveDataLogging(); 
         });
 
         services.AddScoped<IUnitOfWork, UnitOfWork>();
