@@ -8,7 +8,7 @@ namespace ProjectManagementSystem.Repository.Specification.ProjectSpecifications
         public ProjectSpec(SpecParams spec)
         {
             Includes.Add(p => p.Include(p => p.Tasks));
-            Includes.Add(p => p.Include(p => p.UserProjects));
+            Includes.Add(p => p.Include(p => p.UserProjects).ThenInclude(up=> up.User));
 
             if (!string.IsNullOrEmpty(spec.Search))
             {

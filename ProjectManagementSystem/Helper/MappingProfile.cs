@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using ProjectManagementSystem.CQRS.Projects.Command;
 using ProjectManagementSystem.CQRS.Projects.Command.Orchestrator;
+using ProjectManagementSystem.CQRS.Projects.Query;
 using ProjectManagementSystem.CQRS.Roles.Command;
 using ProjectManagementSystem.CQRS.Task.Command;
 using ProjectManagementSystem.CQRS.Users.Commands;
@@ -49,6 +50,12 @@ namespace ProjectManagementSystem.Helper
             CreateMap<DeleteProjectViewModel, DeleteProjectCommand>();
 
             CreateMap<AddProjectViewModel, AddProjectOrchestrator>();
+
+            CreateMap<Project, ProjectToReturnDto>()
+           .ForMember(dest => dest.NumUsers, opt => opt
+                                                .MapFrom(src => src.UserProjects.Select(us=> us.User)
+                                                .Count(u=>u.Status == UserStatus.Active)))
+           .ForMember(dest => dest.NumTasks, opt => opt.MapFrom(src => src.Tasks.Count()));
         }
     }
 }
