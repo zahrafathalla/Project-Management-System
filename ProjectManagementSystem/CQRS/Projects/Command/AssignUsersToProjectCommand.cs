@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using ProjectManagementSystem.Abstractions;
 using ProjectManagementSystem.Data.Entities;
+using ProjectManagementSystem.Data.Entities.Enums;
 using ProjectManagementSystem.Repository.Interface;
 
 namespace ProjectManagementSystem.CQRS.Projects.Command
@@ -29,7 +30,8 @@ namespace ProjectManagementSystem.CQRS.Projects.Command
             {
                 UserId = request.CreatorUserId,
                 ProjectId = request.ProjectId,
-                IsCreator = true
+                IsCreator = true,
+                Status = InvitationStatus.Accepted
             };
 
             await _unitOfWork.Repository<UserProject>().AddAsync(creatorUserProject);
@@ -41,7 +43,8 @@ namespace ProjectManagementSystem.CQRS.Projects.Command
                 {
                     UserId = userId,
                     ProjectId = request.ProjectId,
-                    IsCreator = false
+                    IsCreator = false,
+                    Status = InvitationStatus.Accepted
                 };
 
                 await _unitOfWork.Repository<UserProject>().AddAsync(userProject);

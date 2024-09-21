@@ -7,12 +7,7 @@ using ProjectManagementSystem.Helper;
 
 namespace ProjectManagementSystem.CQRS.Projects.Command
 {
-    public class AddProjectCommand : IRequest<Result<int>>
-    {
-        public string Title { get; set; }
-        public string Description { get; set; }
-        public int CreatedByUserId { get; set; }
-    }
+    public record AddProjectCommand(string Title, string Description, int CreatedByUserId) : IRequest<Result<int>>;
 
     public class AddProjectCommandHandler : IRequestHandler<AddProjectCommand, Result<int>>
     {

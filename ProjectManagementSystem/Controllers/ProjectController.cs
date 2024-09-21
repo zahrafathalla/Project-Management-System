@@ -59,11 +59,10 @@ namespace ProjectManagementSystem.Controllers
         public async Task<Result<int>> CreateProject([FromBody] AddProjectViewModel viewModel)
         {
             var userId = int.Parse(User.FindFirst("UserId")!.Value);
-            var command = viewModel.Map<AddProjectOrchestrator>();
-            command.CreatedByUserId = userId;
-            var result = await _mediator.Send(command);
 
-            return result;
+            var command = await _mediator.Send(new AddProjectCommand(viewModel.Title, viewModel.Description, userId));
+
+            return command;
         }
 
         [HttpPut("Update-project/{projectId}")]
