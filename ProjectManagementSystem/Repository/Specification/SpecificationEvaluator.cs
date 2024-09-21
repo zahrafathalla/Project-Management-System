@@ -1,4 +1,5 @@
-﻿using ProjectManagementSystem.Data.Entities;
+﻿using Microsoft.EntityFrameworkCore;
+using ProjectManagementSystem.Data.Entities;
 
 namespace ProjectManagementSystem.Repository.Specification
 {
@@ -29,6 +30,7 @@ namespace ProjectManagementSystem.Repository.Specification
             }
 
             query = spec.Includes.Aggregate(query, (current, include) => include(current));
+           // query = spec.Includes.Aggregate(query, (current, include) => current.Include(include));
             return query;
         }
 

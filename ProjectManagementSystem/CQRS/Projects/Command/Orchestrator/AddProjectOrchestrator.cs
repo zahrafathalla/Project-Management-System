@@ -50,7 +50,7 @@ namespace ProjectManagementSystem.CQRS.Projects.Command.Orchestrator
 
             if (!assignUsersResult.IsSuccess)
             {
-                return Result.Failure<int>(ProjectErrors.UserAssignmentFailed);
+                return Result.Failure<int>(assignUsersResult.Error);
             }
 
             return Result.Success(projectId);

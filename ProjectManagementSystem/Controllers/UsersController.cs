@@ -9,6 +9,7 @@ using ProjectManagementSystem.CQRS.Users.Queries;
 using ProjectManagementSystem.CQRS.Users.Response;
 using ProjectManagementSystem.Data.Entities;
 using ProjectManagementSystem.Helper;
+using ProjectManagementSystem.Repository.Specification;
 
 namespace ProjectManagementSystem.Controllers;
 
@@ -23,13 +24,20 @@ public class UsersController : BaseController
     }
 
     [HttpGet("List-Users")]
-    public async Task<Result<List<UserResponse>>> GetAllUsers()
+    public async Task<Result<Pagination<UserResponse>>> GetAllProjects([FromQuery] SpecParams spec)
     {
-        var result = await _mediator.Send(new GetAllUsersQuery());
-        return result;
+        var result = await _mediator.Send(new GetAllUsersQuery(spec));
+        if (!result.IsSuccess)
+        {
+            return Result.Failure<Pagination<UserResponse>>(result.Error);
+        }
+
+        var UsertCount = await _mediator.Send(new GetUserCountQuery(spec));
+        var paginationResult = new Pagination<UserResponse>(spec.PageSize, spec.PageIndex, UsertCount.Data, result.Data);
+        return Result.Success(paginationResult);
     }
 
-    [HttpGet("view-User/{projectId}")]
+    [HttpGet("view-User/{UserId}")]
     public async Task<Result<UserResponse>> GetUserById(int UserId)
     {
         var userResult = await _mediator.Send(new GetUserByIdQuery(UserId));

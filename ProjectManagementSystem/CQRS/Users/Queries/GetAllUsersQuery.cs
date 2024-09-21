@@ -4,14 +4,17 @@ using ProjectManagementSystem.CQRS.Users.Response;
 using ProjectManagementSystem.Data.Entities;
 using ProjectManagementSystem.Errors;
 using ProjectManagementSystem.Repository.Interface;
+using ProjectManagementSystem.Repository.Specification;
+using ProjectManagementSystem.Repository.Specification.ProjectSpecifications;
+using ProjectManagementSystem.Repository.Specification.UserSpecification;
 using System.Collections.Generic;
 
 namespace ProjectManagementSystem.CQRS.Users.Queries;
 
 
-public record GetAllUsersQuery : IRequest<Result<List<UserResponse>>>;
+public record GetAllUsersQuery(SpecParams SpecParams) : IRequest<Result<IEnumerable<UserResponse>>>;
 
-public class GetAllUsersQueryHandler : IRequestHandler<GetAllUsersQuery, Result<List<UserResponse>>>
+public class GetAllUsersQueryHandler : IRequestHandler<GetAllUsersQuery, Result<IEnumerable<UserResponse>>>
 {
     private readonly IUnitOfWork _unitOfWork;
     public GetAllUsersQueryHandler(IUnitOfWork unitOfWork)
@@ -19,23 +22,24 @@ public class GetAllUsersQueryHandler : IRequestHandler<GetAllUsersQuery, Result<
         _unitOfWork = unitOfWork;
     }
 
-    public async Task<Result<List<UserResponse>>> Handle(GetAllUsersQuery request, CancellationToken cancellationToken)
+    public async Task<Result<IEnumerable<UserResponse>>> Handle(GetAllUsersQuery request, CancellationToken cancellationToken)
     {
-        var userRepository = _unitOfWork.Repository<User>();
-        var users = await userRepository.GetAllAsync();
+        var spec = new UserSpec(request.SpecParams);
+        var users = await _unitOfWork.Repository<User>().GetAllWithSpecAsync(spec);
 
         if (users == null)
         {
-            return Result.Failure<List<UserResponse>>(UserErrors.UserNotFound);
+            return Result.Failure<IEnumerable<UserResponse>>(UserErrors.UserNotFound);
         }
 
         var userResponses = users.Select(user => new UserResponse
         {
+            Id = user.Id,
             UserName = user.UserName,
             Email = user.Email,
             PhoneNumber = user.PhoneNumber,
             Status = user.Status.ToString() 
-        }).ToList();
+        }).AsEnumerable();
 
         return Result.Success(userResponses);
     }

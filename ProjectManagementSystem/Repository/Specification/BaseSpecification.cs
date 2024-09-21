@@ -18,25 +18,20 @@ namespace ProjectManagementSystem.Repository.Specification
         {
 
         }
+
         public BaseSpecification(Expression<Func<T, bool>> CriteriaExpression)
         {
-
             Criteria = CriteriaExpression;
-
         }
 
         public void AddOrderBy(Expression<Func<T, object>> OrderByExpression)
         {
-
             OrderBy = OrderByExpression;
-
         }
 
         public void AddOrderByDesc(Expression<Func<T, object>> OrderByDescExpression)
         {
-
             OrderByDesc = OrderByDescExpression;
-
         }
 
         public void ApplyPagination(int skip, int take)
@@ -44,7 +39,6 @@ namespace ProjectManagementSystem.Repository.Specification
             IsPaginationEnabled = true;
             Skip = skip;
             Take = take;
-
         }
     }
 }
