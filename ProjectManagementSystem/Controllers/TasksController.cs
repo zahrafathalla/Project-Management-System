@@ -57,10 +57,28 @@ public class TasksController : BaseController
     }
 
     [HttpDelete("Delete-Task/{taskId}")]
-    public async Task<Result<bool>> DeleteProject(int taskId)
+    public async Task<Result<bool>> DeleteTask(int taskId)
     {
         var result = await _mediator.Send(new DeleteTaskCommand(taskId));
 
+        return result;
+    }
+
+    [HttpGet("view-Task/{taskId}")]
+    public async Task<Result<TaskToReturnDto>> GetTasktById(int taskId)
+    {
+        var result = await _mediator.Send(new GetTaskByIdQuery(taskId));
+        if (result.Data == null)
+            return Result.Failure<TaskToReturnDto>(result.Error);
+
+        var mappedTask = result.Data.Map<TaskToReturnDto>();
+        return Result.Success(mappedTask);
+    }
+
+    [HttpPut("Update-Task/{taskId}")]
+    public async Task<Result<bool>> UpdateProject(int taskId, UpdateTaskViewModel viewModel)
+    {
+        var result = await _mediator.Send(new UpdateTaskCommand(taskId, viewModel.Title));
         return result;
     }
 }

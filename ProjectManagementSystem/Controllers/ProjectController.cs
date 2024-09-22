@@ -78,10 +78,9 @@ namespace ProjectManagementSystem.Controllers
 
 
         [HttpPut("Update-project/{projectId}")]
-        public async Task<Result<bool>> UpdateProject([FromBody] UpdateProjectViewModel viewModel)
+        public async Task<Result<bool>> UpdateProject(int projectId,  UpdateProjectViewModel viewModel)
         {
-            var command = viewModel.Map<UpdateProjectCommand>();
-            var result = await _mediator.Send(command);
+            var result = await _mediator.Send(new UpdateProjectCommand(projectId, viewModel.Title, viewModel.Description ));
 
             return result;
         }
