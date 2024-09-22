@@ -44,7 +44,7 @@ namespace ProjectManagementSystem.CQRS.Projects.Command
                     UserId = userId,
                     ProjectId = request.ProjectId,
                     IsCreator = false,
-                    Status = InvitationStatus.Accepted
+                    Status = InvitationStatus.Pending
                 };
 
                 await _unitOfWork.Repository<UserProject>().AddAsync(userProject);

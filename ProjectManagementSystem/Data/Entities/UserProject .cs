@@ -9,5 +9,5 @@ public class UserProject :BaseEntity
     public User User { get; set; }
     public int ProjectId { get; set; }
     public Project Project { get; set; }
-    public InvitationStatus Status { get; set; }
+    public InvitationStatus Status { get; set; } = InvitationStatus.Pending;
 }

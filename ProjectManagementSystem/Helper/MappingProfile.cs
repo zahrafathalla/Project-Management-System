@@ -57,8 +57,6 @@ namespace ProjectManagementSystem.Helper
             CreateMap<UpdateProjectViewModel, UpdateProjectCommand>();
             CreateMap<DeleteProjectViewModel, DeleteProjectCommand>();
 
-           // CreateMap<AddProjectViewModel, AddProjectOrchestrator>();
-
             CreateMap<AssignTaskViewModel, AssignTaskCommand>();
 
             CreateMap<Project, ProjectToReturnDto>()

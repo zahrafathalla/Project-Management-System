@@ -4,12 +4,7 @@ using ProjectManagementSystem.Data.Entities;
 
 namespace ProjectManagementSystem.CQRS.Projects.Command.Orchestrator
 {
-    public class AssignUsersToProjectOrchestrator : IRequest<Result>
-    {
-        public int ProjectId { get; set; }
-        public int CreatorUserId { get; set; }
-        public List<int> UserIds { get; set; } = new List<int>();
-    }
+    public record AssignUsersToProjectOrchestrator(int ProjectId, int CreatorUserId, List<int> UserIds) : IRequest<Result>;
 
     public class AssignUsersToProjectOrchestratorHandler : IRequestHandler<AssignUsersToProjectOrchestrator, Result>
     {

@@ -11,7 +11,5 @@ namespace ProjectManagementSystem.ViewModel
         [Required]
         public string Description { get; set; }
 
-        //[Required]
-        //public List<int> UserIds { get; set; } = new List<int>();
     }
 }

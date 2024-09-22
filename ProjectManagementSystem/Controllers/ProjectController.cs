@@ -65,6 +65,18 @@ namespace ProjectManagementSystem.Controllers
             return command;
         }
 
+        [HttpPost("Assign-Users-To-Project")]
+        [Authorize]
+        public async Task<Result> AssignUsersToProject([FromBody] AssignUsersToProjectViewModel viewModel)
+        {
+            var userId = int.Parse(User.FindFirst("UserId")!.Value);
+
+            var command = await _mediator.Send(new AssignUsersToProjectOrchestrator(viewModel.ProjectId, userId, viewModel.UserIds));
+
+            return command;
+        }
+
+
         [HttpPut("Update-project/{projectId}")]
         public async Task<Result<bool>> UpdateProject([FromBody] UpdateProjectViewModel viewModel)
         {
