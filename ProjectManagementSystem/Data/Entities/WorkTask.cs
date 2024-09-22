@@ -13,4 +13,5 @@ public class WorkTask : BaseEntity
 
     public int? AssignedToUserId { get; set; }
     public User? AssignedToUser { get; set; }
+
 }

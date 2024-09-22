@@ -11,6 +11,7 @@ namespace ProjectManagementSystem.Data.Entities
         public string PhoneNumber { get; set; }
         public string Country { get; set; }
         public UserStatus Status { get; set; } = UserStatus.Active;
+        public DateTime DateCreated { get; set; }
         public string? VerificationToken { get; set; }
         public string? PasswordResetCode { get; set; }
         public ICollection<UserRole> UserRoles { get; set; } = new List<UserRole>();

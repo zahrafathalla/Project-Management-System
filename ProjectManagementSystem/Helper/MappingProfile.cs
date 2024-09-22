@@ -7,6 +7,7 @@ using ProjectManagementSystem.CQRS.Task.Command;
 using ProjectManagementSystem.CQRS.Task.Query;
 using ProjectManagementSystem.CQRS.Users.Commands;
 using ProjectManagementSystem.CQRS.Users.Commands.Orchestrators;
+using ProjectManagementSystem.CQRS.Users.Queries;
 using ProjectManagementSystem.CQRS.Users.Response;
 using ProjectManagementSystem.Data.Entities;
 using ProjectManagementSystem.Data.Entities.Enums;
@@ -48,9 +49,7 @@ namespace ProjectManagementSystem.Helper
 
             CreateMap<WorkTask, TaskToReturnDto>()
                 .ForMember(dest => dest.User, opt => opt.MapFrom(src => src.AssignedToUser != null ? src.AssignedToUser.UserName : "Unassigned")) 
-                .ForMember(dest => dest.Project, opt => opt.MapFrom(src => src.Project.Title)) 
-                .ForMember(dest => dest.Status, opt => opt.MapFrom(src => src.Status.ToString())) 
-                .ForMember(dest => dest.DateCreated, opt => opt.MapFrom(src => src.DateCreated));
+                .ForMember(dest => dest.Project, opt => opt.MapFrom(src => src.Project.Title));
 
 
             CreateMap<UpdateProjectCommand, Project>();
@@ -64,6 +63,8 @@ namespace ProjectManagementSystem.Helper
                                                 .MapFrom(src => src.UserProjects.Select(us=> us.User)
                                                 .Count(u=>u.Status == UserStatus.Active)))
            .ForMember(dest => dest.NumTasks, opt => opt.MapFrom(src => src.Tasks.Count()));
+
+            CreateMap<User, UserToReturnDto>();
         }
     }
 }

@@ -39,6 +39,7 @@ namespace ProjectManagementSystem.CQRS.Users.Commands
             }
 
             var user = request.Map<User>();
+            user.DateCreated = DateTime.Now;
 
             user.PasswordHash = PasswordHasher.HashPassword(request.Password);
             user.VerificationToken = Guid.NewGuid().ToString();

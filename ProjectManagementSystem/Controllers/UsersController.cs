@@ -24,16 +24,16 @@ public class UsersController : BaseController
     }
 
     [HttpGet("List-Users")]
-    public async Task<Result<Pagination<UserResponse>>> GetAllProjects([FromQuery] SpecParams spec)
+    public async Task<Result<Pagination<UserToReturnDto>>> GetAllProjects([FromQuery] SpecParams spec)
     {
         var result = await _mediator.Send(new GetAllUsersQuery(spec));
         if (!result.IsSuccess)
         {
-            return Result.Failure<Pagination<UserResponse>>(result.Error);
+            return Result.Failure<Pagination<UserToReturnDto>>(result.Error);
         }
 
         var UsertCount = await _mediator.Send(new GetUserCountQuery(spec));
-        var paginationResult = new Pagination<UserResponse>(spec.PageSize, spec.PageIndex, UsertCount.Data, result.Data);
+        var paginationResult = new Pagination<UserToReturnDto>(spec.PageSize, spec.PageIndex, UsertCount.Data, result.Data);
         return Result.Success(paginationResult);
     }
 

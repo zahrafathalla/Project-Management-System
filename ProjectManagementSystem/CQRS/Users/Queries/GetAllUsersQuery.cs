@@ -3,6 +3,7 @@ using ProjectManagementSystem.Abstractions;
 using ProjectManagementSystem.CQRS.Users.Response;
 using ProjectManagementSystem.Data.Entities;
 using ProjectManagementSystem.Errors;
+using ProjectManagementSystem.Helper;
 using ProjectManagementSystem.Repository.Interface;
 using ProjectManagementSystem.Repository.Specification;
 using ProjectManagementSystem.Repository.Specification.ProjectSpecifications;
@@ -12,9 +13,17 @@ using System.Collections.Generic;
 namespace ProjectManagementSystem.CQRS.Users.Queries;
 
 
-public record GetAllUsersQuery(SpecParams SpecParams) : IRequest<Result<IEnumerable<UserResponse>>>;
+public record GetAllUsersQuery(SpecParams SpecParams) : IRequest<Result<IEnumerable<UserToReturnDto>>>;
 
-public class GetAllUsersQueryHandler : IRequestHandler<GetAllUsersQuery, Result<IEnumerable<UserResponse>>>
+public class UserToReturnDto ()
+{
+    public string UserName { get; set; }
+    public string Status { get; set; }
+    public string PhoneNumber { get; set; }
+    public string Email { get; set; }
+    public DateTime DateCreated { get; set; }
+}
+public class GetAllUsersQueryHandler : IRequestHandler<GetAllUsersQuery, Result<IEnumerable<UserToReturnDto>>>
 {
     private readonly IUnitOfWork _unitOfWork;
     public GetAllUsersQueryHandler(IUnitOfWork unitOfWork)
@@ -22,25 +31,18 @@ public class GetAllUsersQueryHandler : IRequestHandler<GetAllUsersQuery, Result<
         _unitOfWork = unitOfWork;
     }
 
-    public async Task<Result<IEnumerable<UserResponse>>> Handle(GetAllUsersQuery request, CancellationToken cancellationToken)
+    public async Task<Result<IEnumerable<UserToReturnDto>>> Handle(GetAllUsersQuery request, CancellationToken cancellationToken)
     {
         var spec = new UserSpec(request.SpecParams);
         var users = await _unitOfWork.Repository<User>().GetAllWithSpecAsync(spec);
 
         if (users == null)
         {
-            return Result.Failure<IEnumerable<UserResponse>>(UserErrors.UserNotFound);
+            return Result.Failure<IEnumerable<UserToReturnDto>>(UserErrors.UserNotFound);
         }
 
-        var userResponses = users.Select(user => new UserResponse
-        {
-            Id = user.Id,
-            UserName = user.UserName,
-            Email = user.Email,
-            PhoneNumber = user.PhoneNumber,
-            Status = user.Status.ToString() 
-        }).AsEnumerable();
+        var mappedUser = users.Map<IEnumerable<UserToReturnDto>>();
 
-        return Result.Success(userResponses);
+        return Result.Success(mappedUser);
     }
 }
