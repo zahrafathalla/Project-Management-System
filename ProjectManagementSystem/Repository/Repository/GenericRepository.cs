@@ -30,6 +30,10 @@ namespace ProjectManagementSystem.Repository.Repository
         {
             return await ApplySpecification(Spec).Where(x => !x.IsDeleted).CountAsync();
         }
+        public async Task<int> GetCountAsync()
+        {
+            return await _dBContext.Set<T>().Where(x => !x.IsDeleted).CountAsync();
+        }
         public async Task<IEnumerable<T>> GetAllAsync()
         {
             return await _dBContext.Set<T>().Where(x => !x.IsDeleted).ToListAsync();

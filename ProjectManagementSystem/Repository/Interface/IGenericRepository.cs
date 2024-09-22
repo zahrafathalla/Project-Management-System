@@ -10,6 +10,7 @@ namespace ProjectManagementSystem.Repository.Interface
         Task<IEnumerable<T>> GetAllAsync(int skip , int take);
         Task<IEnumerable<T>> GetAsync(Expression<Func<T, bool>> expression);
         Task<T?> GetByIdAsync(int id);
+        Task<int> GetCountAsync();
         Task AddAsync(T entity);
         void Update(T entity);
         void Delete(T entity);
