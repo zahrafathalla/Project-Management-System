@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using ProjectManagementSystem.Abstractions;
+using ProjectManagementSystem.CQRS.Projects.Command;
 using ProjectManagementSystem.CQRS.Projects.Query;
 using ProjectManagementSystem.CQRS.Task.Command;
 using ProjectManagementSystem.CQRS.Task.Query;
@@ -20,7 +21,7 @@ public class TasksController : BaseController
         _mediator = mediator;
     }
 
-    [HttpPost("CreateTask")]
+    [HttpPost("Create-Task")]
     public async Task<Result<int>> CreateTask([FromBody] CreateTaskViewModel viewModel)
     {
         var command = viewModel.Map<CreateTaskCommand>();
@@ -30,7 +31,7 @@ public class TasksController : BaseController
         return response;
     }
 
-    [HttpPost("AssignTask")]
+    [HttpPost("Assign-Task")]
     public async Task<Result> AssignTask([FromBody] AssignTaskViewModel viewModel)
     {
         var command = viewModel.Map<AssignTaskCommand>();
@@ -53,5 +54,13 @@ public class TasksController : BaseController
         var paginationResult = new Pagination<TaskToReturnDto>(spec.PageSize, spec.PageIndex, TasksCount.Data, result.Data);
 
         return Result.Success(paginationResult);
+    }
+
+    [HttpDelete("Delete-Task/{taskId}")]
+    public async Task<Result<bool>> DeleteProject(int taskId)
+    {
+        var result = await _mediator.Send(new DeleteTaskCommand(taskId));
+
+        return result;
     }
 }

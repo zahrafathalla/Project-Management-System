@@ -74,7 +74,8 @@ namespace ProjectManagementSystem.Repository.Repository
         public void DeleteById(int id)
         {
             T entity = _dBContext.Find<T>(id)!;
-            Delete(entity);
+            entity.IsDeleted = true;
+            Update(entity);
         }
 
         private IQueryable<T> ApplySpecification(ISpecification<T> Spec)
