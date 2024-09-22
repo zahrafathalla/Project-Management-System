@@ -27,7 +27,7 @@ namespace ProjectManagementSystem.Controllers
         }
 
         [HttpPost("login")]
-        public async Task<Result<LoginResponse>> Login([FromBody] LoginViewModel viewModel)
+        public async Task<Result<LoginResponse>> Login(LoginViewModel viewModel)
         {
             var command = viewModel.Map<LoginCommand>();
             var response = await _mediator.Send(command);
@@ -36,15 +36,15 @@ namespace ProjectManagementSystem.Controllers
         }
 
         [HttpPost("verify")]
-        public async Task<Result<bool>> VerifyAccount([FromBody] VerifyAccountViewModel viewModel)
+        public async Task<Result<bool>> VerifyAccount([FromQuery] string token, [FromQuery] string email)
         {
-            var command = viewModel.Map<VerifyAccountCommand>(); 
-            var result = await _mediator.Send(command);
+
+            var result = await _mediator.Send(new VerifyAccountCommand(email, token));
             return result;
         }
         
         [HttpPost("ChangePassword")]
-        public async Task<Result<bool>> ChangePassword([FromBody] ChangePasswordViewModel viewModel)
+        public async Task<Result<bool>> ChangePassword(ChangePasswordViewModel viewModel)
         {
             var command = viewModel.Map<ChangePasswordCommand>();
             var response = await _mediator.Send(command);
@@ -52,7 +52,7 @@ namespace ProjectManagementSystem.Controllers
         }
 
         [HttpPost("forgot-password")]
-        public async Task<Result<bool>> ForgotPassword([FromBody] ForgotPasswordViewModel viewModel)
+        public async Task<Result<bool>> ForgotPassword(ForgotPasswordViewModel viewModel)
         {
             var command = viewModel.Map<ForgotPasswordCommand>(); 
 
@@ -62,11 +62,9 @@ namespace ProjectManagementSystem.Controllers
         }
 
         [HttpPost("reset-password")]
-        public async Task<Result<bool>> ResetPassword([FromBody] ResetPasswordViewModel viewModel)
-        {
-            var command = viewModel.Map<ResetPasswordCommand>();
-            
-            var response = await _mediator.Send(command);
+        public async Task<Result<bool>> ResetPassword([FromQuery] string email,[FromQuery] string resetCode, string newPassword)
+        {           
+            var response = await _mediator.Send(new ResetPasswordCommand(email, resetCode, newPassword));
 
             return response;
         }

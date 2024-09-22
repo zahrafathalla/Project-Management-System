@@ -19,7 +19,7 @@ public class GetProjectByIdQueryHandler : IRequestHandler<GetProjectByIdQuery, R
     }
     public async Task<Result<Project>> Handle(GetProjectByIdQuery request, CancellationToken cancellationToken)
     {
-        var project = (await _unitOfWork.Repository<Project>().GetAsync(p => p.Id == request.ProjectId && !p.IsDeleted)).FirstOrDefault();
+        var project = await _unitOfWork.Repository<Project>().GetByIdAsync(request.ProjectId);
         if (project == null)
         {
             return Result.Failure<Project>(ProjectErrors.ProjectNotFound);

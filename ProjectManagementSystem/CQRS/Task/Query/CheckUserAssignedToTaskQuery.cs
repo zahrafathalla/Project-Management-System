@@ -20,14 +20,9 @@ public class CheckUserAssignedToTaskQueryHandler : IRequestHandler<CheckUserAssi
     public async Task<Result<bool>> Handle(CheckUserAssignedToTaskQuery request, CancellationToken cancellationToken)
     {
         var task = await _unitOfWork.Repository<WorkTask>()
-            .GetByIdAsync(request.TaskId);
+       .GetAsync(t => t.Id == request.TaskId && t.AssignedToUserId != null); 
 
-        if (task is null)
-        {
-            return Result.Failure<bool>(TaskErrors.TaskNotFound);
-        }
-
-        return Result.Success(task.AssignedToUserId == request.UserId);
+        return Result.Success(task.Any());
     }
 }
 

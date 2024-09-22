@@ -48,7 +48,7 @@ namespace ProjectManagementSystem.Helper
 
 
             CreateMap<WorkTask, TaskToReturnDto>()
-                .ForMember(dest => dest.User, opt => opt.MapFrom(src => src.AssignedToUser != null ? src.AssignedToUser.UserName : "Unassigned")) 
+                //.ForMember(dest => dest.User, opt => opt.MapFrom(src => src.AssignedToUser != null ? src.AssignedToUser.UserName : "Unassigned")) 
                 .ForMember(dest => dest.Project, opt => opt.MapFrom(src => src.Project.Title));
 
 

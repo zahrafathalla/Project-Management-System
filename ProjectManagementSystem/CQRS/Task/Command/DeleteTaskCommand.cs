@@ -1,6 +1,6 @@
 ﻿using MediatR;
 using ProjectManagementSystem.Abstractions;
-using ProjectManagementSystem.CQRS.Projects.Query;
+using ProjectManagementSystem.CQRS.Task.Query;
 using ProjectManagementSystem.Data.Entities;
 using ProjectManagementSystem.Errors;
 using ProjectManagementSystem.Repository.Interface;

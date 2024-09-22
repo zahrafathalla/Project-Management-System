@@ -3,8 +3,9 @@ using ProjectManagementSystem.Abstractions;
 using ProjectManagementSystem.Data.Entities;
 using ProjectManagementSystem.Errors;
 using ProjectManagementSystem.Repository.Interface;
+using ProjectManagementSystem.Repository.Specification.TaskSpecifications;
 
-namespace ProjectManagementSystem.CQRS.Task.Command
+namespace ProjectManagementSystem.CQRS.Task.Query
 {
     public record GetTaskByIdQuery(int taskId) : IRequest<Result<WorkTask>>;
 
@@ -18,12 +19,13 @@ namespace ProjectManagementSystem.CQRS.Task.Command
         }
         public async Task<Result<WorkTask>> Handle(GetTaskByIdQuery request, CancellationToken cancellationToken)
         {
-            var task = (await _unitOfWork.Repository<WorkTask>().GetAsync(p => p.Id == request.taskId && !p.IsDeleted)).FirstOrDefault();
+            var spec = new TaskWithProjectSpec(request.taskId);
+            var task = await _unitOfWork.Repository<WorkTask>().GetByIdWithSpecAsync(spec);
+
             if (task == null)
             {
                 return Result.Failure<WorkTask>(TaskErrors.TaskNotFound);
             }
-
             return Result.Success(task);
         }
     }

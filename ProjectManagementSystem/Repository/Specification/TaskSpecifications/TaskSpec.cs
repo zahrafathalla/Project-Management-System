@@ -7,8 +7,8 @@ namespace ProjectManagementSystem.Repository.Specification.TaskSpecifications
     {
         public TaskSpec(SpecParams spec)
         {
-            Includes.Add(p => p.Include(p => p.AssignedToUser)!);
-            Includes.Add(p => p.Include(p => p.Project)!);
+            Includes.Add(p => p.Include(p => p.AssignedToUser));
+            Includes.Add(p => p.Include(p => p.Project));
 
             if (!string.IsNullOrEmpty(spec.Search))
             {

@@ -30,10 +30,13 @@ public class CreateTaskCommandHandler : IRequestHandler<CreateTaskCommand, Resul
             return Result.Failure<int>(ProjectErrors.ProjectNotFound);
         }
 
-        var isUserAssignedToProject = (await _mediator.Send(new CheckUserAssignedToProjectQuery((int)request.AssignedToUserId!, request.ProjectId))).Data;
-        if (!isUserAssignedToProject)
+        if (request.AssignedToUserId.HasValue)
         {
-            return Result.Failure<int>(ProjectErrors.UserIsNotAssignedToThisProject);
+            var isUserAssignedToProject = (await _mediator.Send(new CheckUserAssignedToProjectQuery(request.AssignedToUserId.Value, request.ProjectId))).Data;
+            if (!isUserAssignedToProject)
+            {
+                return Result.Failure<int>(ProjectErrors.UserIsNotAssignedToThisProject);
+            }
         }
 
         var task = request.Map<WorkTask>();

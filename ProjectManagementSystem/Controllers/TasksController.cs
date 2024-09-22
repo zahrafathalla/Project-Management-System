@@ -24,9 +24,9 @@ public class TasksController : BaseController
     [HttpPost("Create-Task")]
     public async Task<Result<int>> CreateTask([FromBody] CreateTaskViewModel viewModel)
     {
-        var command = viewModel.Map<CreateTaskCommand>();
+       // var command = viewModel.Map<CreateTaskCommand>();
 
-        var response = await _mediator.Send(command);
+        var response = await _mediator.Send(new CreateTaskCommand(viewModel.Title, viewModel.ProjectId, viewModel.AssignedToUserId) );
 
         return response;
     }
