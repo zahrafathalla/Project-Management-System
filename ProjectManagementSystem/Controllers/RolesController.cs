@@ -1,6 +1,8 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ProjectManagementSystem.Abstractions;
+using ProjectManagementSystem.Abstractions.Consts;
 using ProjectManagementSystem.CQRS.Roles.Command;
 using ProjectManagementSystem.CQRS.Users.Queries;
 using ProjectManagementSystem.Data.Entities;
@@ -9,6 +11,8 @@ using ProjectManagementSystem.Helper;
 using ProjectManagementSystem.ViewModel;
 
 namespace ProjectManagementSystem.Controllers;
+
+[Authorize(Roles =nameof(DefaultRoles.Admin))]
 
 public class RolesController : BaseController
 {

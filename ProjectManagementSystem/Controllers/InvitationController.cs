@@ -1,11 +1,12 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ProjectManagementSystem.Abstractions;
 using ProjectManagementSystem.CQRS.Projects.Command;
 
 namespace ProjectManagementSystem.Controllers
 {
-
+    [Authorize]
     public class InvitationController : BaseController
     {
         private readonly IMediator _mediator;

@@ -16,6 +16,7 @@ using System.Security.Claims;
 
 namespace ProjectManagementSystem.Controllers
 {
+    [Authorize]
     public class ProjectController : BaseController
     {
         private readonly IMediator _mediator;

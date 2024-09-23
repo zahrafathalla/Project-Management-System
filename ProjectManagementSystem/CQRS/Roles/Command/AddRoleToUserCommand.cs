@@ -41,8 +41,8 @@ public class AddRoleToUserHandler : IRequestHandler<AddRoleToUserCommand, Result
         var role = roleResult.Data;
 
         var userRolesResult = await _mediator.Send(new GetUserRoleByUserIdQuery(request.userId, role.Id), cancellationToken);
-       
-        if (!userRolesResult.IsSuccess)
+
+        if (userRolesResult.IsSuccess)
         {
             return Result.Failure<bool>(RoleErrors.RoleAlreadyExists);
         }

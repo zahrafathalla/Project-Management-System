@@ -1,8 +1,10 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using ProjectManagementSystem.Abstractions;
+using ProjectManagementSystem.Abstractions.Consts;
 using ProjectManagementSystem.CQRS.Projects.Query;
 using ProjectManagementSystem.CQRS.Users.Commands;
 using ProjectManagementSystem.CQRS.Users.Queries;
@@ -13,7 +15,7 @@ using ProjectManagementSystem.Repository.Specification;
 
 namespace ProjectManagementSystem.Controllers;
 
-
+[Authorize(Roles = nameof(DefaultRoles.Admin))]
 public class UsersController : BaseController
 {
     private readonly IMediator _mediator;

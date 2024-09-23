@@ -43,7 +43,7 @@ namespace ProjectManagementSystem.CQRS.Users.Commands.Orchestrators
                 return Result.Failure<bool>(UserErrors.UserDoesntCreated);
             }
             var user = userResult.Data;
-            var verificationUrl = $"http://localhost:5097/api/Account/verify?email={user.Email}&token={user.VerificationToken}";
+            var verificationUrl = $"http://localhost:7120/api/Account/verify?email={user.Email}&token={user.VerificationToken}";
 
             var emailSent = await EmailSender.SendEmailAsync(
                 user.Email,
@@ -51,7 +51,12 @@ namespace ProjectManagementSystem.CQRS.Users.Commands.Orchestrators
                 $"Please verify your email address by clicking the link: <a href='{verificationUrl}'>Verify your account</a>"
             );
 
-            await _mediator.Send(new AssignRegisteredUserToDefaultRoleCommand(user.Id));
+            var isUserAssignedToDefaultRoleResult = await _mediator.Send(new AssignRegisteredUserToDefaultRoleCommand(user.Id));
+
+            if (!isUserAssignedToDefaultRoleResult.IsSuccess)
+            {
+                Result.Failure<bool>(isUserAssignedToDefaultRoleResult.Error);
+            }
 
             if (!emailSent)
             {

@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using ProjectManagementSystem.Abstractions;
@@ -12,6 +13,7 @@ using ProjectManagementSystem.ViewModel;
 
 namespace ProjectManagementSystem.Controllers;
 
+[Authorize]
 public class TasksController : BaseController
 {
     private readonly IMediator _mediator;
@@ -24,8 +26,6 @@ public class TasksController : BaseController
     [HttpPost("Create-Task")]
     public async Task<Result<int>> CreateTask([FromBody] CreateTaskViewModel viewModel)
     {
-       // var command = viewModel.Map<CreateTaskCommand>();
-
         var response = await _mediator.Send(new CreateTaskCommand(viewModel.Title, viewModel.ProjectId, viewModel.AssignedToUserId) );
 
         return response;

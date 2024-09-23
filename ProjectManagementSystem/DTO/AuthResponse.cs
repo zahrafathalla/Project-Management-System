@@ -1,4 +1,4 @@
-﻿namespace ProjectManagementSystem.Contract;
+﻿namespace ProjectManagementSystem.DTO;
 
 public record AuthResponse(
     int Id,
