@@ -4,6 +4,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using ProjectManagementSystem.Abstractions;
 using ProjectManagementSystem.CQRS.Task.Query;
+using ProjectManagementSystem.DTO;
+using ProjectManagementSystem.Helper;
 
 namespace ProjectManagementSystem.Controllers
 {
@@ -28,5 +30,18 @@ namespace ProjectManagementSystem.Controllers
             return result;
         }
 
+
+        [HttpGet("Task-Board/{projectId}")]
+        [Authorize]
+        public async Task<Result<TaskListToReturnDto>> GetTasksByProjectId(int projectId)
+        {
+            var query = new GetTasksByProjectIdQuery(projectId);
+
+            var result = await _mediator.Send(query);
+
+            var taskListToReturnDto = result.Data.Map<TaskListToReturnDto>();
+
+            return Result.Success(taskListToReturnDto);
+        }
     }
 }

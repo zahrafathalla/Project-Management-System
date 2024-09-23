@@ -1,11 +1,12 @@
 ﻿using MediatR;
+using ProjectManagementSystem.Abstractions;
 using ProjectManagementSystem.Data.Entities;
 using ProjectManagementSystem.Data.Entities.Enums;
 using ProjectManagementSystem.Repository.Interface;
 
 namespace ProjectManagementSystem.CQRS.Task.Query;
 
-public record GetTasksByProjectIdQuery(int ProjectId) : IRequest<TaskListResponse>;
+public record GetTasksByProjectIdQuery(int ProjectId) : IRequest<Result<TaskListResponse>>;
 
 public class TaskListResponse
 {
@@ -14,7 +15,7 @@ public class TaskListResponse
     public List<WorkTask> Done { get; set; } = new();
 }
 
-public class GetTasksByProjectIdQueryHandler : IRequestHandler<GetTasksByProjectIdQuery, TaskListResponse>
+public class GetTasksByProjectIdQueryHandler : IRequestHandler<GetTasksByProjectIdQuery, Result<TaskListResponse>>
 {
     private readonly IUnitOfWork _unitOfWork;
 
@@ -23,7 +24,7 @@ public class GetTasksByProjectIdQueryHandler : IRequestHandler<GetTasksByProject
         _unitOfWork = unitOfWork;
     }
 
-    public async Task<TaskListResponse> Handle(GetTasksByProjectIdQuery request, CancellationToken cancellationToken)
+    public async Task<Result<TaskListResponse>> Handle(GetTasksByProjectIdQuery request, CancellationToken cancellationToken)
     {
         var tasks = (await _unitOfWork.Repository<WorkTask>().GetAsync(t => t.ProjectId == request.ProjectId));
 
@@ -45,6 +46,6 @@ public class GetTasksByProjectIdQueryHandler : IRequestHandler<GetTasksByProject
             }
         }
 
-        return response;
+        return Result.Success(response);
     }
 }

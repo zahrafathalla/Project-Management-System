@@ -11,6 +11,7 @@ using ProjectManagementSystem.CQRS.Users.Queries;
 using ProjectManagementSystem.CQRS.Users.Response;
 using ProjectManagementSystem.Data.Entities;
 using ProjectManagementSystem.Data.Entities.Enums;
+using ProjectManagementSystem.DTO;
 using ProjectManagementSystem.ViewModel;
 
 namespace ProjectManagementSystem.Helper
@@ -65,6 +66,10 @@ namespace ProjectManagementSystem.Helper
            .ForMember(dest => dest.NumTasks, opt => opt.MapFrom(src => src.Tasks.Count()));
 
             CreateMap<User, UserToReturnDto>();
+
+            CreateMap<TaskListResponse, TaskListToReturnDto>();
+            CreateMap<WorkTask, WorkTaskToReturnDto>();
+            
         }
     }
 }
