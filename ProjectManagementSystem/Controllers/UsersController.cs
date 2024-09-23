@@ -10,12 +10,13 @@ using ProjectManagementSystem.CQRS.Users.Commands;
 using ProjectManagementSystem.CQRS.Users.Queries;
 using ProjectManagementSystem.CQRS.Users.Response;
 using ProjectManagementSystem.Data.Entities;
+using ProjectManagementSystem.Data.Entities.Enums;
 using ProjectManagementSystem.Helper;
 using ProjectManagementSystem.Repository.Specification;
 
 namespace ProjectManagementSystem.Controllers;
 
-[Authorize(Roles = nameof(DefaultRoles.Admin))]
+//[Authorize(Roles = nameof(DefaultRoles.Admin))]
 public class UsersController : BaseController
 {
     private readonly IMediator _mediator;
@@ -53,10 +54,10 @@ public class UsersController : BaseController
         return Result.Success(userResponse);
     }
 
-    [HttpPut("ChangeUserStatus")]
-    public async Task<Result<bool>> ChangeUserStatus([FromBody] ChangeUserStatusCommand command)
+    [HttpPut("ChangeUserStatus/{userId}")]
+    public async Task<Result<bool>> ChangeUserStatus(int userId, UserStatus newStatus)
     {
-        var result = await _mediator.Send(new ChangeUserStatusCommand(command.UserId, command.NewStatus));
+        var result = await _mediator.Send(new ChangeUserStatusCommand(userId, newStatus));
         if (!result.IsSuccess)
         {
             Result.Failure<bool>(result.Error);

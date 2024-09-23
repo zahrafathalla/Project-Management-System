@@ -7,6 +7,7 @@ using ProjectManagementSystem.CQRS.Projects.Command;
 using ProjectManagementSystem.CQRS.Projects.Command.Orchestrator;
 using ProjectManagementSystem.CQRS.Projects.Query;
 using ProjectManagementSystem.Data.Entities;
+using ProjectManagementSystem.Data.Entities.Enums;
 using ProjectManagementSystem.DTO;
 using ProjectManagementSystem.Errors;
 using ProjectManagementSystem.Helper;
@@ -92,6 +93,18 @@ namespace ProjectManagementSystem.Controllers
             var result = await _mediator.Send(new DeleteProjectCommand(projectId));
 
             return result;
+        }
+
+        [HttpPut("ChangeProjectStatus/{projectId}")]
+        public async Task<Result<bool>> ChangeProjectStatus(int projectId, ProjectStatus newStatus)
+        {
+            var result = await _mediator.Send(new ChangeProjectStatusCommand(projectId, newStatus));
+            if (!result.IsSuccess)
+            {
+                Result.Failure<bool>(result.Error);
+            }
+
+            return Result.Success(true);
         }
     }
 }

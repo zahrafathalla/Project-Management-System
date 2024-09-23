@@ -7,6 +7,8 @@ using ProjectManagementSystem.CQRS.Projects.Command;
 using ProjectManagementSystem.CQRS.Projects.Query;
 using ProjectManagementSystem.CQRS.Task.Command;
 using ProjectManagementSystem.CQRS.Task.Query;
+using ProjectManagementSystem.CQRS.Users.Commands;
+using ProjectManagementSystem.Data.Entities.Enums;
 using ProjectManagementSystem.Helper;
 using ProjectManagementSystem.Repository.Specification;
 using ProjectManagementSystem.ViewModel;
@@ -80,5 +82,17 @@ public class TasksController : BaseController
     {
         var result = await _mediator.Send(new UpdateTaskCommand(taskId, viewModel.Title));
         return result;
+    }
+
+    [HttpPut("ChangeTaskStatus/{taskId}")]
+    public async Task<Result<bool>> ChangeTaskStatus(int taskId, WorkTaskStatus newStatus)
+    {
+        var result = await _mediator.Send(new ChangeTaskStatusCommand(taskId, newStatus));
+        if (!result.IsSuccess)
+        {
+            Result.Failure<bool>(result.Error);
+        }
+
+        return Result.Success(true);
     }
 }
