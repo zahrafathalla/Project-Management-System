@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using ProjectManagementSystem.Abstractions;
 using ProjectManagementSystem.CQRS.Task.Query;
+using ProjectManagementSystem.CQRS.Users.Queries;
 using ProjectManagementSystem.DTO;
 using ProjectManagementSystem.Helper;
 
@@ -19,9 +20,9 @@ namespace ProjectManagementSystem.Controllers
             _mediator = mediator;
         }
 
-        [HttpGet("Task-Stats")]
+        [HttpGet("Task-Statatistics")]
         [Authorize]
-        public async Task<Result<TaskReportingToReturnDto>> GetTaskStats()
+        public async Task<Result<TaskReportToReturnDto>> GetTaskStats()
         {
             var userId = int.Parse(User.FindFirst("UserId")!.Value);
 
@@ -30,6 +31,16 @@ namespace ProjectManagementSystem.Controllers
             return result;
         }
 
+        [HttpGet("User-Statatistics")]
+        [Authorize]
+        public async Task<Result<UserReportToReturnDto>> GetUserStats()
+        {
+            var userId = int.Parse(User.FindFirst("UserId")!.Value);
+
+            var result = await _mediator.Send(new GetUserStatisticsQuery(userId));
+
+            return result;
+        }
 
         [HttpGet("Task-Board/{projectId}")]
         [Authorize]

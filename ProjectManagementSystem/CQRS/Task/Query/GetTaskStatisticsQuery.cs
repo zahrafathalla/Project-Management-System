@@ -4,15 +4,15 @@ using ProjectManagementSystem.CQRS.Projects.Query;
 
 namespace ProjectManagementSystem.CQRS.Task.Query
 {
-    public record GetTaskStatisticsQuery(int userId) : IRequest<Result<TaskReportingToReturnDto>>;
+    public record GetTaskStatisticsQuery(int userId) : IRequest<Result<TaskReportToReturnDto>>;
 
-    public class TaskReportingToReturnDto
+    public class TaskReportToReturnDto
     {
         public decimal TotalProgress { get; set; }
         public int TotalTasks { get; set; }
         public int TotalProjects { get; set; }
     }
-    public class GetTaskStatisticsQueryHandler : IRequestHandler<GetTaskStatisticsQuery, Result<TaskReportingToReturnDto>>
+    public class GetTaskStatisticsQueryHandler : IRequestHandler<GetTaskStatisticsQuery, Result<TaskReportToReturnDto>>
     {
 
         private readonly IMediator _mediator;
@@ -22,7 +22,7 @@ namespace ProjectManagementSystem.CQRS.Task.Query
             _mediator = mediator;
         }
 
-        public async Task<Result<TaskReportingToReturnDto>> Handle(GetTaskStatisticsQuery request, CancellationToken cancellationToken)
+        public async Task<Result<TaskReportToReturnDto>> Handle(GetTaskStatisticsQuery request, CancellationToken cancellationToken)
         {
             var totalTasks = await _mediator.Send(new GetTotalTasksQuery(request.userId));
             
@@ -30,7 +30,7 @@ namespace ProjectManagementSystem.CQRS.Task.Query
 
             var progress = await _mediator.Send(new GetTasksProgressQuery(request.userId));
 
-            var report = new TaskReportingToReturnDto
+            var report = new TaskReportToReturnDto
             {
                 TotalProgress = progress.Data,
                 TotalProjects = totalProjects.Data,
