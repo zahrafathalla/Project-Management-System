@@ -10,7 +10,7 @@ using ProjectManagementSystem.Repository.Interface;
 
 namespace ProjectManagementSystem.CQRS.Users.Commands;
 
-public record ChangeUserStatusCommand(int UserId, string NewStatus) : IRequest<Result<bool>>;
+public record ChangeUserStatusCommand(int UserId, UserStatus NewStatus) : IRequest<Result<bool>>;
 public class ChangeUserStatusCommandHandler : IRequestHandler<ChangeUserStatusCommand, Result<bool>>
 {
     private readonly IUnitOfWork _unitOfWork;
@@ -32,8 +32,7 @@ public class ChangeUserStatusCommandHandler : IRequestHandler<ChangeUserStatusCo
         }
 
         var user = userResult.Data;
-        user.Id = request.UserId;
-        user.Status = (UserStatus)Enum.Parse(typeof(UserStatus), request.NewStatus, true);
+        user.Status = request.NewStatus;
 
         _unitOfWork.Repository<User>().Update(user);
         await _unitOfWork.SaveChangesAsync();
