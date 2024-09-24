@@ -11,5 +11,5 @@ public class WorkTask : BaseEntity
     public Project Project { get; set; }
     public int? AssignedToUserId { get; set; }
     public User? AssignedToUser { get; set; }
-
+    public TaskPriority Priority { get; set; } 
 }

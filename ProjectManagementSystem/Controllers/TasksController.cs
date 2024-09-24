@@ -28,7 +28,7 @@ public class TasksController : BaseController
     [HttpPost("Create-Task")]
     public async Task<Result<int>> CreateTask([FromBody] CreateTaskViewModel viewModel)
     {
-        var response = await _mediator.Send(new CreateTaskCommand(viewModel.Title, viewModel.ProjectId, viewModel.AssignedToUserId) );
+        var response = await _mediator.Send(new CreateTaskCommand(viewModel.Title, viewModel.ProjectId, viewModel.AssignedToUserId,viewModel.Priority) );
 
         return response;
     }
@@ -80,7 +80,7 @@ public class TasksController : BaseController
     [HttpPut("Update-Task/{taskId}")]
     public async Task<Result<bool>> UpdateProject(int taskId, UpdateTaskViewModel viewModel)
     {
-        var result = await _mediator.Send(new UpdateTaskCommand(taskId, viewModel.Title));
+        var result = await _mediator.Send(new UpdateTaskCommand(taskId, viewModel.Title,viewModel.Priority));
         return result;
     }
 

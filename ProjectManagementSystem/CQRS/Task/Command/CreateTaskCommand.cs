@@ -2,13 +2,14 @@
 using ProjectManagementSystem.Abstractions;
 using ProjectManagementSystem.CQRS.Projects.Query;
 using ProjectManagementSystem.Data.Entities;
+using ProjectManagementSystem.Data.Entities.Enums;
 using ProjectManagementSystem.Errors;
 using ProjectManagementSystem.Helper;
 using ProjectManagementSystem.Repository.Interface;
 
 namespace ProjectManagementSystem.CQRS.Task.Command;
 
-public record CreateTaskCommand(string Title, int ProjectId, int? AssignedToUserId) : IRequest<Result<int>>;
+public record CreateTaskCommand(string Title, int ProjectId, int? AssignedToUserId, TaskPriority Priority) : IRequest<Result<int>>;
 
 public class CreateTaskCommandHandler : IRequestHandler<CreateTaskCommand, Result<int>>
 {

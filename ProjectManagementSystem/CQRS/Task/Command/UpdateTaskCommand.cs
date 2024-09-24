@@ -2,12 +2,13 @@
 using ProjectManagementSystem.Abstractions;
 using ProjectManagementSystem.CQRS.Task.Query;
 using ProjectManagementSystem.Data.Entities;
+using ProjectManagementSystem.Data.Entities.Enums;
 using ProjectManagementSystem.Errors;
 using ProjectManagementSystem.Repository.Interface;
 
 namespace ProjectManagementSystem.CQRS.Task.Command
 {
-    public record UpdateTaskCommand(int TaskId, string Title) : IRequest<Result<bool>>;
+    public record UpdateTaskCommand(int TaskId, string Title, TaskPriority priority) : IRequest<Result<bool>>;
 
     public class UpdateTaskCommandHandler : IRequestHandler<UpdateTaskCommand, Result<bool>>
     {
@@ -31,6 +32,7 @@ namespace ProjectManagementSystem.CQRS.Task.Command
 
             var task = taskResult.Data;
             task.Title = request.Title;
+            task.Priority = request.priority;
 
             _unitOfWork.Repository<WorkTask>().Update(task);
             await _unitOfWork.SaveChangesAsync();

@@ -1,4 +1,6 @@
-﻿namespace ProjectManagementSystem.ViewModel;
+﻿using ProjectManagementSystem.Data.Entities.Enums;
 
-public record CreateTaskViewModel(string Title, int ProjectId, int? AssignedToUserId);
+namespace ProjectManagementSystem.ViewModel;
+
+public record CreateTaskViewModel(string Title, int ProjectId, int? AssignedToUserId, TaskPriority Priority);
 
