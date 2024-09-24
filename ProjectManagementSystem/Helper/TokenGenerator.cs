@@ -1,6 +1,8 @@
-﻿using System.IdentityModel.Tokens.Jwt;
+﻿using System.Data;
+using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using System.Text.Json;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using ProjectManagementSystem.Authontication;
@@ -21,9 +23,18 @@ public static class TokenGenerator
             new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
         });
 
+       // var userRoles = "";
+
+        if (user.UserRoles != null)
+        {
+            foreach (var userRole in user.UserRoles)
+            {
+                claims.AddClaim(new Claim(ClaimTypes.Role, userRole.Role.Name));
+            }
+        }
+
         var symmetricSecurityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(options.Key));
         var signingCredentials = new SigningCredentials(symmetricSecurityKey, SecurityAlgorithms.HmacSha256);
-
 
         var tokenDescriptor = new SecurityTokenDescriptor
         {

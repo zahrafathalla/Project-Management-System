@@ -54,6 +54,14 @@ namespace ProjectManagementSystem.Repository.Repository
             return await query.ToListAsync();
         }
 
+        public IQueryable<T> GetWithInclude(Expression<Func<T, bool>> expression)
+        {
+            var query = _dBContext.Set<T>().AsQueryable();
+            query = query.Where(x => !x.IsDeleted);
+            query = query.Where(expression);
+            return query;
+        }
+
         public async Task<T?> GetByIdAsync(int id)
         {
             return await _dBContext.Set<T>().Where(x => !x.IsDeleted).FirstOrDefaultAsync(x => x.Id == id);

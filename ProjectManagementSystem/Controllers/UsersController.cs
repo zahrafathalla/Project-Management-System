@@ -15,7 +15,7 @@ using ProjectManagementSystem.Repository.Specification;
 
 namespace ProjectManagementSystem.Controllers;
 
-[Authorize(Roles = nameof(DefaultRoles.Admin))]
+[Authorize(Roles = "Admin")]
 public class UsersController : BaseController
 {
     private readonly IMediator _mediator;

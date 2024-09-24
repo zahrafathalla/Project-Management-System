@@ -35,7 +35,7 @@ namespace ProjectManagementSystem.CQRS.Users.Commands
             }
 
             var user = userResult.Data;
-            if (!PasswordHasher.checkPassword(request.Password, user.PasswordHash) /*|| !user.IsEmailVerified*/)
+            if (!PasswordHasher.checkPassword(request.Password, user.PasswordHash) || !user.IsEmailVerified)
             {
                 return Result.Failure<LoginResponse>(UserErrors.InvalidCredentials);
             }

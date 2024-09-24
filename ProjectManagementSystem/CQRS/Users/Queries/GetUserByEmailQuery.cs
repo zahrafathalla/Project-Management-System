@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using Microsoft.EntityFrameworkCore;
 using ProjectManagementSystem.Abstractions;
 using ProjectManagementSystem.CQRS.Users.Commands;
 using ProjectManagementSystem.Data.Entities;
@@ -26,7 +27,7 @@ namespace ProjectManagementSystem.CQRS.Users.Queries
                 return Result.Failure<User>(UserErrors.InvalidEmail);
             }
 
-            var user = (await _unitOfWork.Repository<User>().GetAsync(u => u.Email == request.Email)).FirstOrDefault();
+            var user =  _unitOfWork.Repository<User>().GetWithInclude(u => u.Email == request.Email).Include(u => u.UserRoles).ThenInclude(r=>r.Role).FirstOrDefault();
             if (user == null)
             {
                 return Result.Failure<User>(UserErrors.UserNotFound);
