@@ -15,6 +15,13 @@ namespace ProjectManagementSystem.Data.Configurations
                     status => status.ToString(),
                     status => (WorkTaskStatus)Enum.Parse(typeof(WorkTaskStatus), status)
                 );
+
+            builder.Property(t => t.Priority)
+                .HasConversion
+                (
+                    status => status.ToString(),
+                    status => (TaskPriority)Enum.Parse(typeof(TaskPriority), status)
+                );
         }
     }
 }

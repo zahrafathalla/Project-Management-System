@@ -17,6 +17,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;
 using ProjectManagementSystem.Extensions;
 using Microsoft.OpenApi.Models;
+using ProjectManagementSystem.RabbitMQ;
 
 namespace ProjectManagementSystem
 {
@@ -28,6 +29,7 @@ namespace ProjectManagementSystem
 
             builder.Services.AddDependencies(builder.Configuration);
 
+            builder.Services.AddHostedService<RabbitMQConsumer>();
             var app = builder.Build();
 
             #region Update-Database

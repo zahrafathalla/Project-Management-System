@@ -4,7 +4,7 @@ using ProjectManagementSystem.Data.Entities;
 using ProjectManagementSystem.Errors;
 using ProjectManagementSystem.Repository.Interface;
 
-namespace ProjectManagementSystem.CQRS.Task.Query;
+namespace ProjectManagementSystem.CQRS.Tasks.Query;
 
 public record CheckUserAssignedToTaskQuery(int UserId, int TaskId) : IRequest<Result<bool>>;
 

@@ -3,7 +3,7 @@ using ProjectManagementSystem.Abstractions;
 using ProjectManagementSystem.Data.Entities;
 using ProjectManagementSystem.Repository.Interface;
 
-namespace ProjectManagementSystem.CQRS.Task.Query
+namespace ProjectManagementSystem.CQRS.Tasks.Query
 {
     public record GetTotalTasksQuery(int userId) :IRequest<Result<int>>;
 

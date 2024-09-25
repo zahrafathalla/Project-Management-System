@@ -4,7 +4,7 @@ using ProjectManagementSystem.Data.Entities;
 using ProjectManagementSystem.Data.Entities.Enums;
 using ProjectManagementSystem.Repository.Interface;
 
-namespace ProjectManagementSystem.CQRS.Task.Query;
+namespace ProjectManagementSystem.CQRS.Tasks.Query;
 
 public record GetTasksByProjectIdQuery(int ProjectId) : IRequest<Result<TaskListResponse>>;
 

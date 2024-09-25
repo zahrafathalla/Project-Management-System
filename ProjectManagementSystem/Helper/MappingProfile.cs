@@ -1,10 +1,9 @@
 ﻿using AutoMapper;
 using ProjectManagementSystem.CQRS.Projects.Command;
-using ProjectManagementSystem.CQRS.Projects.Command.Orchestrator;
 using ProjectManagementSystem.CQRS.Projects.Query;
 using ProjectManagementSystem.CQRS.Roles.Command;
-using ProjectManagementSystem.CQRS.Task.Command;
-using ProjectManagementSystem.CQRS.Task.Query;
+using ProjectManagementSystem.CQRS.Tasks.Command;
+using ProjectManagementSystem.CQRS.Tasks.Query;
 using ProjectManagementSystem.CQRS.Users.Commands;
 using ProjectManagementSystem.CQRS.Users.Commands.Orchestrators;
 using ProjectManagementSystem.CQRS.Users.Queries;
@@ -40,7 +39,10 @@ namespace ProjectManagementSystem.Helper
                  .ForMember(dest => dest.DateCreated, opt => opt.MapFrom(src => DateTime.UtcNow));
 
             CreateMap<CreateTaskCommand, WorkTask>()
-                 .ForMember(dest => dest.DateCreated, opt => opt.MapFrom(src => DateTime.UtcNow));
+                 .ForMember(dest => dest.DateCreated, opt => opt.MapFrom(src => DateTime.UtcNow))
+                 .ForMember(dest => dest.AssignedToUserId ,opt=> opt.Ignore());
+
+
 
 
             CreateMap<CreateTaskViewModel, CreateTaskCommand>();
@@ -48,7 +50,9 @@ namespace ProjectManagementSystem.Helper
 
 
             CreateMap<WorkTask, TaskToReturnDto>()
-                .ForMember(dest => dest.Project, opt => opt.MapFrom(src => src.Project.Title));
+                .ForMember(dest => dest.Project, opt => opt.MapFrom(src => src.Project.Title))
+                .ForMember(dest => dest.User, opt=> opt.MapFrom(src => src.AssignedToUser.UserName));
+
 
 
             CreateMap<UpdateProjectCommand, Project>();

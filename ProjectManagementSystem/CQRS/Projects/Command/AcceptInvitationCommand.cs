@@ -29,7 +29,7 @@ namespace ProjectManagementSystem.CQRS.Projects.Command
 
         public async Task<Result> Handle(AcceptInvitationCommand request, CancellationToken cancellationToken)
         {
-            var userProject = await _mediator.Send(new GetUserProjectQuery(request.UserId, request.ProjectId));
+            var userProject = await _mediator.Send(new GetUsersInProjectByProjectIdQuery(request.UserId, request.ProjectId));
 
             if (userProject == null)
             {

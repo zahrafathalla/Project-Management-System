@@ -5,7 +5,7 @@ using ProjectManagementSystem.Errors;
 using ProjectManagementSystem.Repository.Interface;
 using ProjectManagementSystem.Repository.Specification.TaskSpecifications;
 
-namespace ProjectManagementSystem.CQRS.Task.Query
+namespace ProjectManagementSystem.CQRS.Tasks.Query
 {
     public record GetTaskByIdQuery(int taskId) : IRequest<Result<WorkTask>>;
 

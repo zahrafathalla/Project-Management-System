@@ -5,6 +5,7 @@ using ProjectManagementSystem.CQRS.Users.Commands;
 using ProjectManagementSystem.Data.Entities;
 using ProjectManagementSystem.Errors;
 using ProjectManagementSystem.Repository.Interface;
+using ProjectManagementSystem.Repository.Specification.UserSpecification;
 
 
 namespace ProjectManagementSystem.CQRS.Users.Queries
@@ -27,7 +28,9 @@ namespace ProjectManagementSystem.CQRS.Users.Queries
                 return Result.Failure<User>(UserErrors.InvalidEmail);
             }
 
-            var user =  _unitOfWork.Repository<User>().GetWithInclude(u => u.Email == request.Email).Include(u => u.UserRoles).ThenInclude(r=>r.Role).FirstOrDefault();
+            var spec = new UserSpecWithUserRoles(request.Email);
+            var users = await _unitOfWork.Repository<User>().GetAllWithSpecAsync(spec);
+            var user = users.FirstOrDefault();
             if (user == null)
             {
                 return Result.Failure<User>(UserErrors.UserNotFound);

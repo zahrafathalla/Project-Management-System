@@ -1,11 +1,11 @@
 ﻿using MediatR;
 using ProjectManagementSystem.Abstractions;
-using ProjectManagementSystem.CQRS.Task.Query;
+using ProjectManagementSystem.CQRS.Tasks.Query;
 using ProjectManagementSystem.Data.Entities;
 using ProjectManagementSystem.Errors;
 using ProjectManagementSystem.Repository.Interface;
 
-namespace ProjectManagementSystem.CQRS.Task.Command
+namespace ProjectManagementSystem.CQRS.Tasks.Command
 {
     public record DeleteTaskCommand(int taskId) : IRequest<Result<bool>>;
 

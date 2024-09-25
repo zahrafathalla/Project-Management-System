@@ -2,7 +2,7 @@
 using ProjectManagementSystem.Abstractions;
 using ProjectManagementSystem.CQRS.Projects.Query;
 
-namespace ProjectManagementSystem.CQRS.Task.Query
+namespace ProjectManagementSystem.CQRS.Tasks.Query
 {
     public record GetTaskStatisticsQuery(int userId) : IRequest<Result<TaskReportToReturnDto>>;
 

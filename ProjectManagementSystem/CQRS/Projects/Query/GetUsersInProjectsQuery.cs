@@ -20,7 +20,7 @@ namespace ProjectManagementSystem.CQRS.Projects.Query
         public async Task<Result<IEnumerable<User>>> Handle(GetUsersInProjectsQuery request, CancellationToken cancellationToken)
         {
 
-            var spec = new UserProjectWithUserSpec(request.UserId);
+            var spec = new UserProjectWithUserandProjectSpec(request.UserId);
             var userProjects = await _unitOfWork.Repository<UserProject>()
                                      .GetAllWithSpecAsync(spec);
 
@@ -31,7 +31,7 @@ namespace ProjectManagementSystem.CQRS.Projects.Query
 
             var projectIds = userProjects.Select(up => up.ProjectId).Distinct().ToList();
 
-            var specWithProjectIds = new UserProjectWithUserSpec(projectIds);
+            var specWithProjectIds = new UserProjectWithUserandProjectSpec(projectIds);
 
             var usersInProjects = await _unitOfWork.Repository<UserProject>()
                                       .GetAllWithSpecAsync(specWithProjectIds);

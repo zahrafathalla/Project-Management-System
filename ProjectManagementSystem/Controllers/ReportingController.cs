@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using ProjectManagementSystem.Abstractions;
-using ProjectManagementSystem.CQRS.Task.Query;
+using ProjectManagementSystem.CQRS.Tasks.Query;
 using ProjectManagementSystem.CQRS.Users.Queries;
 using ProjectManagementSystem.DTO;
 using ProjectManagementSystem.Helper;

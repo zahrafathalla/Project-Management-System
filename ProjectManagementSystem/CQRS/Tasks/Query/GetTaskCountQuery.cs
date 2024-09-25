@@ -6,7 +6,7 @@ using ProjectManagementSystem.Repository.Specification.ProjectSpecifications;
 using ProjectManagementSystem.Repository.Specification;
 using ProjectManagementSystem.Repository.Specification.TaskSpecifications;
 
-namespace ProjectManagementSystem.CQRS.Task.Query;
+namespace ProjectManagementSystem.CQRS.Tasks.Query;
 
 public record GetTaskCountQuery(SpecParams SpecParams) : IRequest<Result<int>>;
 

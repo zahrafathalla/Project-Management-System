@@ -1,13 +1,14 @@
 ﻿using MediatR;
 using ProjectManagementSystem.Abstractions;
 using ProjectManagementSystem.CQRS.Projects.Query;
+using ProjectManagementSystem.CQRS.Users.Queries;
 using ProjectManagementSystem.Data.Entities;
 using ProjectManagementSystem.Data.Entities.Enums;
 using ProjectManagementSystem.Errors;
 using ProjectManagementSystem.Helper;
 using ProjectManagementSystem.Repository.Interface;
 
-namespace ProjectManagementSystem.CQRS.Task.Command;
+namespace ProjectManagementSystem.CQRS.Tasks.Command;
 
 public record CreateTaskCommand(string Title, int ProjectId, int? AssignedToUserId, TaskPriority Priority) : IRequest<Result<int>>;
 
@@ -31,19 +32,37 @@ public class CreateTaskCommandHandler : IRequestHandler<CreateTaskCommand, Resul
             return Result.Failure<int>(ProjectErrors.ProjectNotFound);
         }
 
+        var task = request.Map<WorkTask>();
+
+
         if (request.AssignedToUserId.HasValue)
-        {
+        {           
             var isUserAssignedToProject = (await _mediator.Send(new CheckUserAssignedToProjectQuery(request.AssignedToUserId.Value, request.ProjectId))).Data;
             if (!isUserAssignedToProject)
             {
                 return Result.Failure<int>(ProjectErrors.UserIsNotAssignedToThisProject);
             }
-        }
+            var userResult = await _mediator.Send(new GetUserByIdQuery(request.AssignedToUserId.Value));
+            if (!userResult.IsSuccess)
+            {
+                return Result.Failure<int>(UserErrors.UserNotFound);
+            }
 
-        var task = request.Map<WorkTask>();
+            task.AssignedToUser = userResult.Data;
+        }
 
         await _unitOfWork.Repository<WorkTask>().AddAsync(task);
         await _unitOfWork.SaveChangesAsync();
+
+        var CreatedMessage = $"Task '{task.Title}' has been created in project '{projectResult.Data.Title}' with ID {task.ProjectId}";
+        await _mediator.Send(new PublishRabbitMqMessageCommand(CreatedMessage, "key2"));
+
+
+        if (request.AssignedToUserId.HasValue)
+        {
+            var AssignmentMessage = $"Task '{task.Title}' has been assigned to user with email {task.AssignedToUser.Email}";
+            await _mediator.Send(new PublishRabbitMqMessageCommand(AssignmentMessage, "key1"));
+        }
 
         return Result.Success(task.Id);
     }

@@ -18,7 +18,7 @@ namespace ProjectManagementSystem.CQRS.Projects.Query
         }
         public async Task<Result<int>> Handle(GetTotalProjectsQuery request, CancellationToken cancellationToken)
         {
-            var spec = new ProjectWithUserSpec(request.userId);
+            var spec = new ProjectWithUserProjectSpec(request.userId);
 
             var projects = await _unitOfWork.Repository<Project>().GetAllWithSpecAsync(spec);                                       
 

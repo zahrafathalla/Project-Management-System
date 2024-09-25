@@ -9,6 +9,8 @@ namespace ProjectManagementSystem.Repository.Specification.TaskSpecifications
             :base(t=>t.Id==taskId)
         {
             Includes.Add(t => t.Include(t => t.Project));
+            Includes.Add(t => t.Include(t => t.AssignedToUser));
+
         }
     }
 }

@@ -41,7 +41,7 @@ public static class TokenGenerator
             Issuer = options.Issuer,
             Audience = options.Audience,
             Subject = new ClaimsIdentity(claims),
-            Expires = DateTime.UtcNow.AddMinutes(options.ExpiryMinutes),
+            Expires = DateTime.UtcNow.AddDays(options.ExpiryDays),
             SigningCredentials = signingCredentials
         };
 
